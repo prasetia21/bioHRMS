@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <title>Mobilekit Mobile UI Kit</title>
+    <title>Login BioHRMS</title>
     <meta name="description" content="Mobilekit HTML Mobile UI Kit">
     <meta name="keywords" content="bootstrap 4, mobile template, cordova, phonegap, mobile, html" />
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" sizes="32x32">
@@ -38,10 +38,20 @@
                 <h4>Fill the form to log in</h4>
             </div>
             <div class="section mt-1 mb-5">
-                <form action="app-pages.html">
+                @php 
+                    $message = Session::get('warning');
+                @endphp
+
+                @if (Session::get('warning'))
+                    <div class="alert alert-outline-warning">
+                        {{ $message }}
+                    </div>
+                @endif
+                <form action="/proseslogin" method="POST">
+                    @csrf
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="email" class="form-control" id="email1" placeholder="Email address">
+                            <input type="text" class="form-control" name="no_hp" id="no_hp" placeholder="Nomor HP">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
@@ -50,7 +60,7 @@
 
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="password" class="form-control" id="password1" placeholder="Password">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
