@@ -20,7 +20,8 @@ return new class extends Migration
             $table->time('time_out')->nullable();
             $table->string('photo_in');
             $table->string('photo_out')->nullable();
-            $table->text('information')->nullable();
+            $table->text('location_in')->nullable();
+            $table->text('location_out')->nullable();
             $table->foreign('employee_id')
                 ->references('id')->on('employees')
                 ->onDelete('cascade');

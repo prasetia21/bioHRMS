@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function prosesLogin (Request $request){
-        if (Auth::guard('karyawan')->attempt(['no_hp' => $request->no_hp, 'password' => $request->password ])) {
+        if (Auth::guard('employee')->attempt(['phone' => $request->phone, 'password' => $request->password ])) {
             return redirect('/dashboard');
         } else {
             return redirect('/')->with(['warning' => 'No Telepon / Password Salah']);
@@ -16,8 +16,8 @@ class AuthController extends Controller
     }
 
     public function prosesLogout () {
-        if (Auth::guard('karyawan')->check()) {
-            Auth::guard('karyawan')->logout();
+        if (Auth::guard('employee')->check()) {
+            Auth::guard('employee')->logout();
             return redirect('/');
         }
     }

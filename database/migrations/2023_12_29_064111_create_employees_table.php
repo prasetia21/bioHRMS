@@ -13,20 +13,24 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_level_id');
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('departement_id');
             $table->integer('nip')->nullable();
-            $table->string('fullname')->nullable();
+            $table->string('phone')->unique();
+            $table->string('password');
+            $table->string('fullname');
             $table->string('photo')->nullable();
             $table->string('gender')->nullable();
             $table->string('address')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('birth_place')->nullable();
             $table->date('start_work_date')->nullable();
+            $table->date('contact_date')->nullable();
             $table->string('status')->nullable();
-            $table->foreign('user_id')
-                ->references('id')->on('users')
+            $table->rememberToken();
+            $table->foreign('user_level_id')
+                ->references('id')->on('user_levels')
                 ->onDelete('cascade');
             $table->foreign('position_id')
                 ->references('id')->on('positions')

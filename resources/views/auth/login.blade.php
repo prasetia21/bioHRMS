@@ -47,11 +47,11 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form action="/proseslogin" method="POST">
+                <form action="/signin" method="POST">
                     @csrf
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" name="no_hp" id="no_hp" placeholder="Nomor HP">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Nomor HP">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>

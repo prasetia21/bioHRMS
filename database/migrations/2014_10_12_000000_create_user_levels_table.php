@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('role',['admin','manager', 'hr','staff'])->default('staff');
             $table->timestamps();
         });
     }

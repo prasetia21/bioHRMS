@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
+            $table->string('branch')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->string('qrcode')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email');
             $table->timestamps();
         });
     }
