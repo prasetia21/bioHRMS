@@ -9,6 +9,7 @@ class AuthController extends Controller
 {
     public function prosesLogin (Request $request){
         if (Auth::guard('employee')->attempt(['phone' => $request->phone, 'password' => $request->password ])) {
+            
             return redirect('/dashboard');
         } else {
             return redirect('/')->with(['warning' => 'No Telepon / Password Salah']);
