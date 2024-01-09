@@ -1,15 +1,15 @@
 @extends('backend.layouts.template')
 
 @section('title')
-    List Karyawan - BIO HRMS
+    List User Dashboard - BIO HRMS
 @endsection
 
 @section('banner-title')
-    Karyawan
+    User Dashboard
 @endsection
 
 @section('banner-desc')
-    Halaman untuk Menambah Data Karyawan di Bioindustries
+    Halaman untuk Menambah Data User Dashboard di Bioindustries
 @endsection
 
 @section('main')
@@ -20,10 +20,10 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">List Karyawan</h4>
+                                <h4 class="card-title">List User</h4>
                             </div>
                             <div class="card-action">
-                                <a href="{{ route('tambah.employee') }}" class="btn btn-primary" role="button">Tambah
+                                <a href="{{ route('tambah.user') }}" class="btn btn-primary" role="button">Tambah
                                     Baru</a>
                             </div>
 
@@ -55,20 +55,9 @@
                                         <thead>
                                             <tr class="ligth">
                                                 <th>NO</th>
-                                                <th>Foto</th>
-                                                <th>NIP</th>
                                                 <th>Nama</th>
-                                                <th>Alamat</th>
-                                                <th>Jabatan</th>
-                                                <th>Departemen</th>
-                                                <th>Level</th>
-                                                <th>Telepon</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tempat, Tgl Lahir</th>
-                                                <th>Umur</th>
-                                                <th>Mulai Bekerja</th>
-                                                <th>Masa Kerja</th>
-                                                <th>Status</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
                                                 <th style="min-width: 100px">Aksi</th>
                                             </tr>
                                         </thead>
@@ -76,66 +65,37 @@
                                             @foreach ($data as $key => $item)
                                                 <tr>
                                                     <td> {{ $key + 1 }} </td>
-                                                    <td> <img src="{{ asset('/picture/accounts/' . $item->photo) }}"
-                                                            style="width: 80px; height:80px;">
-                                                    <td>{{ $item->nip }}</td>
-                                                    <td>{{ $item->fullname }}</td>
-                                                    <td>{{ $item->address }}</td>
-                                                    <td>{{ $item->position->name }}</td>
-                                                    <td>{{ $item->departement->name }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->email }}</td>
                                                     <td>{{ $item->level->role }}</td>
-                                                    <td>{{ $item->phone }}</td>
-                                                    <td>{{ $item->gender }}</td>
-                                                    @php
-                                                        $birth = $item['birth_date'];
-                                                        $work = $item['start_work_date'];
-
-                                                        $dateBirth = \Carbon\Carbon::parse($birth)->format('d-m-Y');
-                                                        $dateWork = \Carbon\Carbon::parse($work)->format('d-m-Y');
-                                                        
-                                                        $now = \Carbon\Carbon::now();
-                                                        $formatted_dt = \Carbon\Carbon::parse($birth);
-                                                        $age = $formatted_dt->diffInYears($now);
-
-                                                    @endphp
-                                                    <td>{{ $item->birth_place . ', ' . $dateBirth }}</td>
-                                                    <td>{{ $age . ' tahun' }}</td>
-                                                    <td>{{ $dateWork }}</td>
-                                                    @php
-                                                        $date = $item['contact_date'];
-
-                                                        $arr = explode(' to ', $date);
-
-                                                        $timestamp1 = $arr['0'];
-                                                        $timestamp2 = $arr['1'];
-
-                                                        $formatted_dt1 = \Carbon\Carbon::parse($timestamp1);
-
-                                                        $formatted_dt2 = \Carbon\Carbon::parse($timestamp2);
-
-                                                        $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
-
-                                                        $month_diff = $formatted_dt1->diffInMonths($formatted_dt2);
-
-                                                        $year_diff = $formatted_dt1->diffInYears($formatted_dt2);
-
-                                                    @endphp
-
-                                                    <td>
-                                                        <span class="badge bg-success">
-                                                            @if ($year_diff >= '1')
-                                                                {{ $year_diff . ' tahun' }}
-                                                            @elseif ($month_diff >= '1')
-                                                                {{ $month_diff . ' bulan' }}
-                                                            @else
-                                                                {{ $date_diff . ' hari' }}
-                                                            @endif
-                                                        </span>
-                                                    </td>
-                                                    <td><span class="badge bg-primary">{{ $item->status }}</span></td>
                                                     <td>
                                                         <div class="flex align-items-center list-user-action">
-                                                            <a href="/manage/employee/update/{{ $item->id }}"
+                                                            <a href="/manage/user/password-update/{{ $item->id }}"
+                                                                class="btn btn-sm btn-icon btn-info"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Password Change" data-original-title="Password Change" href="#">
+                                                                <span class="btn-inner">
+                                                                    <svg class="icon-20" width="20" viewBox="0 0 24 24"
+                                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+                                                                            stroke="currentColor" stroke-width="1.5"
+                                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                                        </path>
+                                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                            d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+                                                                            stroke="currentColor" stroke-width="1.5"
+                                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                                        </path>
+                                                                        <path d="M15.1655 4.60254L19.7315 9.16854"
+                                                                            stroke="currentColor" stroke-width="1.5"
+                                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                                        </path>
+                                                                    </svg>
+                                                                    
+                                                                </span>
+                                                            </a>
+                                                            <a href="/manage/user/update/{{ $item->id }}"
                                                                 class="btn btn-sm btn-icon btn-warning"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="Edit" data-original-title="Edit" href="#">
@@ -160,7 +120,7 @@
                                                                 </span>
                                                             </a>
                                                             <form onsubmit="return confirmHapus(event)"
-                                                                action="/manage/employee/remove/{{ $item->id }}"
+                                                                action="/manage/user/remove/{{ $item->id }}"
                                                                 method="post" class="d-inline">
                                                                 @csrf
                                                                 <button type="submit"

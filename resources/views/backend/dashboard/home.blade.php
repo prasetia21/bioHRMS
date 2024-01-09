@@ -7,6 +7,6 @@
 Dashboard - BIO HRMS
 @endsection
 
-@include('backend.layouts.announcement')
+
 
 @endsection

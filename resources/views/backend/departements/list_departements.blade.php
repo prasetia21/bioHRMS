@@ -72,7 +72,7 @@
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->address }}</td>
                                                     <td>{{ $item->branch }}</td>
-                                                    <td>{{ $item->latitude . ',' . $item->latitude }}</td>
+                                                    <td>{{ $item->latitude . ', ' . $item->longitude }}</td>
                                                     <td class="text-center">
                                                         <img class="bg-soft-primary rounded img-fluid avatar-40 me-3"
                                                             src="../../assets/images/shapes/05.png" alt="profile" />

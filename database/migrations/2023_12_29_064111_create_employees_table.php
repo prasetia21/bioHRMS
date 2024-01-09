@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_level_id');
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('departement_id');
-            $table->integer('nip')->nullable();
+            $table->unsignedBigInteger('nip')->nullable();
             $table->string('phone')->unique();
             $table->string('password');
             $table->string('fullname');
@@ -26,8 +26,8 @@ return new class extends Migration
             $table->date('birth_date')->nullable();
             $table->string('birth_place')->nullable();
             $table->date('start_work_date')->nullable();
-            $table->date('contact_date')->nullable();
-            $table->string('status')->nullable();
+            $table->string('contact_date')->nullable();
+            $table->enum('status',['Tetap','Kontrak', 'Part-Time'])->default('Kontrak');
             $table->rememberToken();
             $table->foreign('user_level_id')
                 ->references('id')->on('user_levels')

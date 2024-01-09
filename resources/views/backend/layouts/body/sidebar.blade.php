@@ -1,6 +1,6 @@
 <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
-        <a href="../dashboard/index.html" class="navbar-brand">
+        <a href="{{ route('dashboard-manage') }}" class="navbar-brand">
 
             <!--Logo start-->
             <div class="logo-main">
@@ -53,13 +53,13 @@
             <!-- Sidebar Menu Start -->
             <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
                 <li class="nav-item static-item">
-                    <a class="nav-link static-item disabled" href="#" tabindex="-1">
+                    <a class="nav-link static-item disabled" href="{{ route('dashboard-manage') }}" tabindex="-1">
                         <span class="default-icon">Home</span>
                         <span class="mini-icon">-</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../dashboard/index.html">
+                    <a class="nav-link active" aria-current="page" href="{{ route('dashboard-manage') }}">
                         <i class="icon">
                             <svg width="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" class="icon-20">
@@ -109,7 +109,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-special" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/special-pages/billing.html">
+                            <a class="nav-link " href="{{ route('departemen') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -124,7 +124,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/special-pages/calender.html">
+                            <a class="nav-link " href="{{ route('position') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -139,7 +139,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/special-pages/kanban.html">
+                            <a class="nav-link " href="{{ route('employee') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -180,7 +180,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="../dashboard/auth/sign-in.html">
+                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -195,7 +195,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../dashboard/auth/sign-up.html">
+                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -210,7 +210,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../dashboard/auth/confirm-mail.html">
+                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -263,7 +263,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/app/user-profile.html">
+                            <a class="nav-link " href="{{ route('dashboard-manage') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -277,23 +277,9 @@
                                 <span class="item-name">User Profile</span>
                             </a>
                         </li>
+                        
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/app/user-add.html">
-                                <i class="icon">
-                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
-                                        viewBox="0 0 24 24" fill="currentColor">
-                                        <g>
-                                            <circle cx="12" cy="12" r="8" fill="currentColor">
-                                            </circle>
-                                        </g>
-                                    </svg>
-                                </i>
-                                <i class="sidenav-mini-icon"> A </i>
-                                <span class="item-name">Tambah User</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/app/user-list.html">
+                            <a class="nav-link " href="{{ route('user') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -310,7 +296,7 @@
                     </ul>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="https://templates.iqonic.design/hope-ui/html/dist/#accordion">
+                        <a class="nav-link" href="{{ route('dashboard-manage') }}">
                             <i class="icon">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -364,7 +350,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-form" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/form/form-element.html">
+                            <a class="nav-link " href="{{ route('dashboard-manage') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -391,6 +377,22 @@
                                 </i>
                                 <i class="sidenav-mini-icon"> RC </i>
                                 <span class="item-name">Rule Cuti</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{ route('userlevel') }}">
+                                <i class="icon">
+                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
+                                        viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor">
+                                            </circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> RA </i>
+                                <span class="item-name">Role Akses</span>
                             </a>
                         </li>
                       

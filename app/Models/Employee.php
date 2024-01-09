@@ -15,10 +15,23 @@ class Employee extends Authenticatable
 
     public $table = 'employees';
     protected $fillable = [
-        'fullname',
+        'user_level_id',
+        'position_id',
+        'departement_id',
+        'nip',
         'phone',
         'password',
+        'photo',
+        'fullname',
+        'gender',
+        'address',
+        'birth_date',
+        'birth_place',
+        'start_work_date',
+        'contact_date',
+        'status',
     ];
+
 
     protected $hidden = [
         'password',
@@ -31,17 +44,21 @@ class Employee extends Authenticatable
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
     }
-
+    
+    public function level(){
+        return $this->belongsTo(UserLevel::class,'user_level_id','id');
+    }
+    
     public function departement()
     {
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(Departement::class,'departement_id','id');
     }
 
     public function position()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class,'position_id','id');
     }
 
     public function promotor_report(): HasOne

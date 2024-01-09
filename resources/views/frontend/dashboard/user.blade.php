@@ -10,7 +10,7 @@ BIO HRMS
 @endsection
 
 {{-- Content Goes Here --}}
-@include('frontend.layouts.attendance.presence')
+@include('frontend.layouts.position.user')
 {{-- End Content Goes Here --}}
 
 @endsection

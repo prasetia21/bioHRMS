@@ -8,50 +8,77 @@ use App\Models\Position;
 use App\Models\UserLevel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class EmployeeController extends Controller
 {
     function index()
     {
-        $data = Employee::with('departement')->get();
+        $data = Employee::with('departement')->with('position')->with('level')->get();
+
+        // $date = $data[0]['contact_date'];
+        // $arr = explode(' to ', $date);
+
+        // $timestamp1 = $arr['0'];
+        // $timestamp2 = $arr['1'];
+
+        // $formatted_dt1 = Carbon::parse($timestamp1);
+
+        // $formatted_dt2 = Carbon::parse($timestamp2);
+
+        // $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
+
+        // $month_diff = $formatted_dt1->diffInMonths($formatted_dt2);
+
+        // $year_diff = $formatted_dt1->diffInYears($formatted_dt2);
+
         return view('backend.employees.list_employees', ['data' => $data]);
     }
 
     function addNew()
     {
-        $office = Departement::latest()->get();
-        $position = Position::latest()->get();
-        $level = UserLevel::latest()->get();
+        $departements = Departement::latest()->get();
+        $positions = Position::latest()->get();
+        $levels = UserLevel::latest()->get();
 
-        return view('backend.employees.add_employees', compact('office', 'position', 'level'));
+        return view('backend.employees.add_employees', compact('departements', 'positions', 'levels'));
     }
 
     function store(Request $request)
     {
         $photo = '';
         $inputdate = $request->birth_date;
+        $inputstartdate = $request->birth_date;
         $format = 'd-m-Y';
+        $formatdate = 'Y-m-d';
         $date = Carbon::parse($inputdate)->format($format);
+        $birthDate = Carbon::parse($inputdate)->format($formatdate);
+        $workDate = Carbon::parse($inputstartdate)->format($formatdate);
 
         $request->validate([
             'phone' => 'required|min:4',
             'fullname' => 'required|min:4',
-            'password' => 'required|min:6',
             'user_level_id' => 'required',
             'position_id' => 'required',
             'departement_id' => 'required',
         ], [
-            'phone.required' => 'Nomor HP Wajib Di isi',
-            'phone.min' => 'Bidang Nomor HP minimal harus 4 karakter.',
-            'fullname.required' => 'Full Name Wajib Di isi',
-            'fullname.min' => 'Bidang Full Name minimal harus 4 karakter.',
-            'password.required' => 'Password Wajib Di isi',
-            'password.min' => 'Password minimal harus 6 karakter.',
+            'phone.required' => 'Nomor HP Wajib Di isi / Tidak Sesuai',
+            'phone.min' => 'Bidang Nomor HP minimal harus 10 karakter.',
+            'fullname.required' => 'Name Wajib Di isi',
+            'fullname.min' => 'Bidang Name minimal harus 4 karakter.',
             'user_level_id.required' => 'Level Akses User Wajib Di isi',
             'position_id.required' => 'Posisi Wajib Di isi',
             'departement_id.required' => 'Departemen Wajib Di isi',
         ]);
+
+        $cekPhone = $request->phone;
+        $sameUser = Employee::where('phone', $cekPhone)->first();
+
+        if ($sameUser) {
+            Session::flash('danger', 'No HP sudah Terdaftar');
+            return Redirect::back();
+        }
 
 
         if ($request->hasFile('photo')) {
@@ -78,42 +105,62 @@ class EmployeeController extends Controller
             'photo' => $photo,
             'gender' => $request->gender,
             'address' => $request->address,
-            'birth_date' => $date,
+            'birth_date' => $birthDate,
             'birth_place' => $request->birth_place,
-            'start_work_date' => $request->start_work_date,
-            'status' => $request->status,            
+            'start_work_date' => $workDate,
+            'contact_date' => $request->contact_date,
+            'status' => $request->status,
         ]);
 
         Session::flash('success', 'Data berhasil ditambahkan.');
 
-        return redirect('/manage/employees');
+        return redirect('/manage/employee');
     }
 
     function update($id)
     {
-        $data = Employee::find($id);
-        $office = Departement::latest()->get();
-        $position = Position::latest()->get();
-        $level = UserLevel::latest()->get();
+        $data = Employee::with('departement')
+            ->with('position')
+            ->with('level')
+            ->find($id);
 
+        $departements = Departement::latest()->get();
+        $positions = Position::latest()->get();
+        $levels = UserLevel::latest()->get();
 
-        return view('backend.employees.update', ['data' => $data], compact('office', 'position', 'level'));
+        return view('backend.employees.update_employees', ['data' => $data], compact('departements', 'positions', 'levels'));
     }
+
     function destroy(Request $request)
     {
         Employee::where('id', $request->id)->delete();
 
         Session::flash('success', 'Berhasil Hapus Data');
 
-        return redirect('/manage/employees');
+        return redirect('/manage/employee');
     }
-    
+
     function change(Request $request)
     {
-        $photo_file = $request->file('photo');
-        $photo_ekstensi = $photo_file->extension();
-        $photo = date('ymdhis') . "." . $photo_ekstensi;
-        $photo_file->move(public_path('picture/accounts'), $photo);
+        if ($request->hasFile('photo')) {
+
+            $request->validate(['photo' => 'mimes:jpeg,jpg,png,gif|image|file|max:1024']);
+
+            $photo_file = $request->file('photo');
+            $foto_ekstensi = $photo_file->extension();
+            $nama_foto = date('ymdhis') . "." . $foto_ekstensi;
+            $photo_file->move(public_path('picture/accounts'), $nama_foto);
+            $photo = $nama_foto;
+        } else {
+            $photo = $request->backup_photo;
+        }
+
+        $inputdate = $request->birth_date;
+        $inputstartdate = $request->birth_date;
+        $formatdate = 'Y-m-d';
+
+        $birthDate = Carbon::parse($inputdate)->format($formatdate);
+        $workDate = Carbon::parse($inputstartdate)->format($formatdate);
 
         $karyawan = Employee::find($request->id);
 
@@ -125,15 +172,15 @@ class EmployeeController extends Controller
         $karyawan->photo = $photo;
         $karyawan->gender = $request->gender;
         $karyawan->address = $request->address;
-        $karyawan->birth_date = $request->birth_date;
+        $karyawan->birth_date = $birthDate;
         $karyawan->birth_place = $request->birth_place;
-        $karyawan->start_work_date = $request->start_work_date;
+        $karyawan->start_work_date = $workDate;
         $karyawan->status = $request->status;
         $karyawan->save();
 
         Session::flash('success', 'Berhasil Mengubah Data');
 
-        return redirect('/manage/employees');
+        return redirect('/manage/employee');
     }
 
     function register()
@@ -172,7 +219,7 @@ class EmployeeController extends Controller
             'departement_id' => $request->departement_id,
             'phone' => $request->phone,
             'password' => $request->password,
-            'fullname' => $request->fullname,    
+            'fullname' => $request->fullname,
         ]);
 
         Session::flash('success', 'User berhasil didaftarkan.');
