@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('short_information');
             $table->text('detail_information');
-            $table->string('link');
-            $table->string('author');
-            $table->string('status')->nullable();
+            $table->string('link')->nullable();
+            $table->string('attachment')->nullable();
             $table->boolean('approval')->default(false);
             $table->foreign('employee_id')
                 ->references('id')->on('employees')

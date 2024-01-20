@@ -7,8 +7,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLevelController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +86,27 @@ Route::get('/manage/user/password-update/{id}', [UserController::class, 'updateP
 Route::post('/manage/user/password-change', [UserController::class, 'changePassword'])->name('change.password.user');
 
 Route::get('/manage/user-level', [UserController::class, 'roleList'])->name('userlevel');
-Route::get('/manage/user-level/add', [UserController::class, 'addNewRole'])->name('tambah.userlevel');
 Route::post('/manage/user-level/store', [UserController::class, 'storeRole'])->name('store.userlevel');
 Route::post('/manage/user-level/remove/{id}', [UserController::class, 'destroyRole'])->name('destroy.userlevel');
+
+Route::get('/manage/rule-attendance', [SettingController::class, 'ruleListAttendance'])->name('ruleattendance');
+Route::post('/manage/rule-attendance/store', [SettingController::class, 'storeRuleAttendance'])->name('store.ruleattendance');
+Route::get('/manage/rule-attendance/update/{id}', [SettingController::class, 'updateRuleAttendance'])->name('update.ruleattendance');
+Route::post('/manage/rule-attendance/change', [SettingController::class, 'changeRuleAttendance'])->name('change.ruleattendance');
+Route::post('/manage/rule-attendance/remove/{id}', [SettingController::class, 'destroyRuleAttendance'])->name('destroy.ruleattendance');
+
+Route::get('/manage/rule-leave', [SettingController::class, 'ruleListLeave'])->name('ruleleave');
+Route::post('/manage/rule-leave/store', [SettingController::class, 'storeRuleLeave'])->name('store.ruleleave');
+Route::get('/manage/rule-leave/update/{id}', [SettingController::class, 'updateRuleLeave'])->name('update.ruleleave');
+Route::post('/manage/rule-leave/change', [SettingController::class, 'changeRuleLeave'])->name('change.ruleleave');
+Route::post('/manage/rule-leave/remove/{id}', [SettingController::class, 'destroyRuleLeave'])->name('destroy.ruleleave');
+
+
+Route::get('/manage/news', [NewsController::class, 'index'])->name('news');
+Route::get('/manage/news/add', [NewsController::class, 'addNew'])->name('tambah.news');
+Route::post('/manage/news/store', [NewsController::class, 'store'])->name('store.news');
+Route::get('/manage/news/update/{id}', [NewsController::class, 'update'])->name('update.news');
+Route::post('/manage/news/change', [NewsController::class, 'change'])->name('change.news');
+Route::post('/manage/news/remove/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
+Route::get('/news/{param}', [NewsController::class, 'detail'])->name('detail.news');
+Route::post('/manage/news/approve/{id}', [NewsController::class, 'approve'])->name('approve.news');

@@ -296,7 +296,7 @@
                     </ul>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard-manage') }}">
+                        <a class="nav-link" href="{{ route('news') }}">
                             <i class="icon">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -350,7 +350,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-form" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link " href="{{ route('dashboard-manage') }}">
+                            <a class="nav-link " href="{{ route('ruleattendance') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -365,7 +365,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/form/form-wizard.html">
+                            <a class="nav-link " href="{{ route('ruleleave') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
