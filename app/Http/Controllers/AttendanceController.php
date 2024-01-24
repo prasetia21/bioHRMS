@@ -66,11 +66,19 @@ class AttendanceController extends Controller
             }
     
             $image = $request->image;
-            dd($location);
+            //dd($location);
     
+            $cek = Presence::where('presence_date', $presence_date)->where('id', $employee_id)->count();
+    
+            if ($cek > 0) {
+                $ket = "out";
+            } else {
+                $ket = "in";
+            }
+
             if (isset($image)) {
                 $folderPath = 'public/uploads/absensi';
-                $formatName = $employee->nip . "-" . $presence_date;
+                $formatName = $employee->nip . "-" . $presence_date . "-" . $ket;
                 $image_part = explode(';base64', $image);
                 $image_base64 = base64_decode($image_part[1]);
                 $fileName = $formatName . ".png";
@@ -79,8 +87,7 @@ class AttendanceController extends Controller
                 echo "error|Foto Selfie Gagal, Harap Reload Ulang Halaman / Hubungi IT Departemen|image";
             }
     
-            $cek = Presence::where('presence_date', $presence_date)->where('id', $employee_id)->count();
-    
+           
             if ($radius > 10) {
                 echo "error|Maaf Anda berada diluar Radius, Jarak Anda masih " . $radius . " Meter dari Kantor|radius";
             } elseif ($radius == null) {

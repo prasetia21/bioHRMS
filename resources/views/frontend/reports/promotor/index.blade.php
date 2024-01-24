@@ -6,7 +6,84 @@
 
 @section('header')
     <style>
+        body {
+            background: -webkit-linear-gradient(left, #0c0125a6, #275377);
+        }
 
+        .contact-form {
+            background: #fff;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            width: 80%;
+        }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 14%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .contact-form {
+                width: 100%;
+                margin-top: 0%;
+                margin-bottom: 0%;
+            }
+
+            .contact-form form {
+                padding: 17% 5%;
+            }
+
+            .contact-form .btnContact {
+                width: 90%;
+                padding: 4.5%;
+            }
+        }
     </style>
 
 
@@ -24,7 +101,7 @@
 
 @section('main')
 
-    <div class="container contact-form">
+    <div class="container contact-form" style="margin-top: 100px;margin-bottom: 100px">
         @if ($errors->any())
             <div class="alert alert-danger">
 
@@ -40,43 +117,27 @@
             @csrf
 
             <div class="form-row">
+                <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id"
+                    name="employee_id" hidden />
 
+                <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_promotor"
+                    name="nama_promotor" hidden />
 
-
-                <div class="form-group mb-5 col-md-12">
-                    <label for="office_id" class="form-label">Kantor Cabang <sup><span
-                                style="color: #dc3545">(*)</span></sup></label>
-                    <select name="office_id" class="form-control" id="office_id" required>
-                        <option></option>
-                        @foreach ($kacabs as $kacab)
-                            <option value="{{ $kacab->id }}">{{ $kacab->kantor_cabang }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <input type="text" class="form-control" id="kantor_cabang" name="kantor_cabang" hidden />
-                <input type="text" class="form-control" id="nama_promotor" name="nama_promotor" hidden />
                 <input type="text" class="form-control" value="{{ $info->ip }}" id="ip" name="ip"
                     hidden />
                 <input type="text" class="form-control" id="latitude2" name="latitude2" hidden />
                 <input type="text" class="form-control" id="longitude2" name="longitude2" hidden />
                 <input type="text" class="form-control" value="{{ $info->cityName }}" id="city_name" name="city_name"
                     hidden />
-                <input type="text" class="form-control" id="latitude1" name="latitude1" hidden />
-                <input type="text" class="form-control" id="longitude1" name="longitude1" hidden />
+                <input type="text" class="form-control" id="latitude1" name="latitude1" value="{{ $latitudeDept }}"
+                    hidden />
+                <input type="text" class="form-control" id="longitude1" name="longitude1" value="{{ $longitudeDept }}"
+                    hidden />
                 <input type="text" class="form-control" id="jarak" name="jarak" hidden />
                 <input type="text" class="form-control" id="keterangan" name="keterangan" hidden />
                 <input type="text" class="form-control" id="sharelok" name="sharelok" hidden />
 
 
-                <div class="form-group mb-5 col-md-12">
-                    <label for="employee_id" class="form-label">Nama <sup><span
-                                style="color: #dc3545">(*)</span></sup></label>
-                    <select name="employee_id" class="form-control" id="employee_id" required>
-                        <option></option>
-
-                    </select>
-                </div>
 
                 <div class="form-group mb-5 col-md-12">
                     <label for="waktu_kunjungan">Waktu Kunjungan <sup><span style="color: #dc3545">(*)</span></sup></label>
@@ -164,53 +225,8 @@
 @push('myscript')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('select[name="office_id"]').on('change', function() {
-                var office_id = $(this).val();
-                if (office_id) {
-                    $.ajax({
-                        url: "{{ url('/promotor/ajax') }}/" + office_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('select[name="employee_id"]').html('');
-                            var d = $('select[name="employee_id"]').empty();
-                            $('select[name="employee_id"]').append(
-                                '<option value="0">Pilih Salah Satu</option>');
-                            $.each(data, function(key, value) {
-                                $('select[name="employee_id"]').append(
-                                    '<option value="' + value.id + '">' + value
-                                    .nama_karyawan + '</option>');
-                            });
-                        },
-
-                    });
-                } else {
-                    $('select[name="office_id"]').append(
-                        '<option value="0" selected>Pilih Salah Satu</option>');
-                }
-            });
-        });
-
-        $(document).ready(function() {
-
-            // Office function
-            $("#office_id").change(function() {
-                var value = $(this).val();
-                var kacab = $(this).find("option:selected").text();
-                $("#kantor_cabang").val(kacab);
-            }).change(); // Trigger initial change
-
-            // Employee function
-            $("#employee_id").change(function() {
-                var value = $(this).val();
-                var promotor = $(this).find("option:selected").text();
-                $("#nama_promotor").val(promotor);
-            }).change(); // Trigger initial change
-
-        });
-
-        $(document).ready(function() {
             getLocation(); // Call the function directly on page load
+            applyDistance();
         });
 
         function getLocation() {
@@ -243,48 +259,6 @@
                     break;
             }
         }
-
-
-        $(function() {
-            let kantor = $('#kantor_cabang').val();
-            let latYog = "-7.824743884482511";
-            let longYog = "110.3851776668307";
-            let latJep = "-6.652100557453785";
-            let longJep = "110.70972057237938";
-            let latCir = "-6.709089464556359";
-            let longCir = "108.4885450319081";
-            let latSby = "-7.446453578935748";
-            let longSby = "112.56573042028272";
-
-
-
-            $('#office_id').change(function() {
-                let lat2 = $('#latitude2').val();
-                let lon2 = $('#longitude2').val();
-                if ($('#kantor_cabang').val() == "Yogyakarta") {
-                    $('#latitude1').val(parseFloat(latYog));
-                    $('#longitude1').val(parseFloat(longYog));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latYog + "," + longYog + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Jepara") {
-                    $('#latitude1').val(parseFloat(latJep));
-                    $('#longitude1').val(parseFloat(longJep));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latJep + "," + longJep + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Cirebon") {
-                    $('#latitude1').val(parseFloat(latCir));
-                    $('#longitude1').val(parseFloat(longCir));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latCir + "," + longCir + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Surabaya") {
-                    $('#latitude1').val(parseFloat(latSby));
-                    $('#longitude1').val(parseFloat(longSby));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latSby + "," + longSby + "/" +
-                        lat2 + "," + lon2);
-                }
-                applyDistance();
-            });
-        });
 
         $('#frmPromotor').on('submit', function(e) {
             e.preventDefault();
@@ -346,6 +320,8 @@
                 success: function(data) {
                     $('#jarak').val(data.data);
                     $('#keterangan').val(data.ket);
+                    $('#sharelok').val("https://www.google.com/maps/dir/" + lat1 + "," + lon1 + "/" +
+                        lat2 + "," + lon2);
 
                 }
             })

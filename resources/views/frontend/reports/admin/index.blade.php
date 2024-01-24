@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('frontend.layouts.template')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@section('title')
+    Laporan Admin - BIO HRMS
+@endsection
 
-    <title>Form Penilaian Admin</title>
-    {{-- <link rel="stylesheet" href="{{ asset('form/bootstrap-4.6.2-dist/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('form/fontawesome-free-5.6.3-web/css/all.min.css') }}" /> --}}
-
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.3/css/all.min.css" />
-
+@section('header')
     <style>
         body {
             background: -webkit-linear-gradient(left, #0c0125a6, #275377);
@@ -97,15 +85,26 @@
             }
         }
     </style>
-</head>
-
-<body>
 
 
 
-    <div class="container contact-form">
+    <div class="appHeader bg-primary text-light">
+        <div class="left">
+            <a href="javascript:;" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">Laporan Admin</div>
+        <div class="right"></div>
+    </div>
+@endsection
+
+@section('main')
+
+    <div class="container contact-form" style="margin-top: 100px;margin-bottom: 100px">
         @if ($errors->any())
             <div class="alert alert-danger">
+
                 <ul>
                     @foreach ($errors->all() as $item)
                         <li>{{ $item }}</li>
@@ -113,24 +112,16 @@
                 </ul>
             </div>
         @endif
+
         <form id="frmAdmin" method="POST" enctype="multipart/form-data">
             @csrf
-            <h3>Form Penilaian admin</h3>
             <div class="form-row">
 
-                <div class="form-group mb-5 col-md-12">
-                    <label for="office_id" class="form-label">Kantor Cabang <sup><span
-                                style="color: #dc3545">(*)</span></sup></label>
-                    <select name="office_id" class="form-control" id="office_id" required>
-                        <option></option>
-                        @foreach ($kacabs as $kacab)
-                            <option value="{{ $kacab->id }}">{{ $kacab->kantor_cabang }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id" name="employee_id"
+                    hidden />
 
-                <input type="text" class="form-control" id="kantor_cabang" name="kantor_cabang" hidden />
-                <input type="text" class="form-control" id="nama_admin" name="nama_admin" hidden />
+                <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_admin"
+                    name="nama_admin" hidden />
                 <input type="text" class="form-control" id="fileContent" name="fileContent" hidden />
                 <input type="text" class="form-control" id="filename" name="filename" hidden />
                 <input type="text" class="form-control" value="{{ $info->ip }}" id="ip" name="ip"
@@ -139,8 +130,9 @@
                 <input type="text" class="form-control" id="longitude2" name="longitude2" hidden />
                 <input type="text" class="form-control" value="{{ $info->cityName }}" id="city_name" name="city_name"
                     hidden />
-                <input type="text" class="form-control" id="latitude1" name="latitude1" hidden />
-                <input type="text" class="form-control" id="longitude1" name="longitude1" hidden />
+                <input type="text" class="form-control" id="latitude1" name="latitude1" value="{{ $latitudeDept }}"
+                    hidden />
+                <input type="text" class="form-control" id="longitude1" name="longitude1" value="{{ $longitudeDept }}" hidden />
                 <input type="text" class="form-control" id="jarak" name="jarak" hidden />
                 <input type="text" class="form-control" id="keterangan" name="keterangan" hidden />
                 <input type="text" class="form-control" id="sharelok" name="sharelok" hidden />
@@ -150,14 +142,6 @@
 
                 {{-- <input name="_token" id="token" value="{{ csrf_token() }}"> --}}
 
-                <div class="form-group mb-5 col-md-12">
-                    <label for="employee_id" class="form-label">Nama <sup><span
-                                style="color: #dc3545">(*)</span></sup></label>
-                    <select name="employee_id" class="form-control" id="employee_id" required>
-                        <option></option>
-
-                    </select>
-                </div>
 
                 <div class="form-group mb-5 col-md-12">
 
@@ -179,45 +163,9 @@
         {{-- <button type="button" onclick="UploadFile();">Upload </button> --}}
     </div>
 
-    {{-- <script src="{{ asset('form/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('form/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js') }}"> </script> --}}
+@endsection
 
-    <script src="//code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
-    <script src="//cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('select[name="office_id"]').on('change', function() {
-                var office_id = $(this).val();
-                if (office_id) {
-                    $.ajax({
-                        url: "{{ url('/admin/ajax') }}/" + office_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('select[name="employee_id"]').html('');
-                            var d = $('select[name="employee_id"]').empty();
-                            $('select[name="employee_id"]').append(
-                                '<option value="0">Pilih Salah Satu</option>');
-                            $.each(data, function(key, value) {
-                                $('select[name="employee_id"]').append(
-                                    '<option value="' + value.id + '">' + value
-                                    .nama_karyawan + '</option>');
-                            });
-                        },
-
-                    });
-                } else {
-                    $('select[name="office_id"]').append(
-                        '<option value="0" selected>Pilih Salah Satu</option>');
-                }
-            });
-        });
-    </script>
-
+@push('myscript')
     <script>
         $('#attach').change(function() {
             let date = new Date();
@@ -234,25 +182,8 @@
         });
 
         $(document).ready(function() {
-
-            // Office function
-            $("#office_id").change(function() {
-                var value = $(this).val();
-                var kacab = $(this).find("option:selected").text();
-                $("#kantor_cabang").val(kacab);
-            }).change(); // Trigger initial change
-
-            // Employee function
-            $("#employee_id").change(function() {
-                var value = $(this).val();
-                var admin = $(this).find("option:selected").text();
-                $("#nama_admin").val(admin);
-            }).change(); // Trigger initial change
-
-        });
-
-        $(document).ready(function() {
             getLocation(); // Call the function directly on page load
+            applyDistance();
         });
 
         function getLocation() {
@@ -285,47 +216,6 @@
                     break;
             }
         }
-
-        $(function() {
-            let kantor = $('#kantor_cabang').val();
-            let latYog = "-7.824743884482511";
-            let longYog = "110.3851776668307";
-            let latJep = "-6.652100557453785";
-            let longJep = "110.70972057237938";
-            let latCir = "-6.709089464556359";
-            let longCir = "108.4885450319081";
-            let latSby = "-7.446453578935748";
-            let longSby = "112.56573042028272";
-
-
-
-            $('#office_id').change(function() {
-                let lat2 = $('#latitude2').val();
-                let lon2 = $('#longitude2').val();
-                if ($('#kantor_cabang').val() == "Yogyakarta") {
-                    $('#latitude1').val(parseFloat(latYog));
-                    $('#longitude1').val(parseFloat(longYog));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latYog + "," + longYog + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Jepara") {
-                    $('#latitude1').val(parseFloat(latJep));
-                    $('#longitude1').val(parseFloat(longJep));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latJep + "," + longJep + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Cirebon") {
-                    $('#latitude1').val(parseFloat(latCir));
-                    $('#longitude1').val(parseFloat(longCir));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latCir + "," + longCir + "/" +
-                        lat2 + "," + lon2);
-                } else if ($('#kantor_cabang').val() == "Surabaya") {
-                    $('#latitude1').val(parseFloat(latSby));
-                    $('#longitude1').val(parseFloat(longSby));
-                    $('#sharelok').val("https://www.google.com/maps/dir/" + latSby + "," + longSby + "/" +
-                        lat2 + "," + lon2);
-                }
-                applyDistance();
-            });
-        });
 
         $('#frmAdmin').on('submit', function(e) {
             e.preventDefault();
@@ -401,11 +291,11 @@
                 success: function(data) {
                     $('#jarak').val(data.data);
                     $('#keterangan').val(data.ket);
+                    $('#sharelok').val("https://www.google.com/maps/dir/" + lat1 + "," + lon1 + "/" +
+                        lat2 + "," + lon2);
 
                 }
             })
         }
     </script>
-</body>
-
-</html>
+@endpush

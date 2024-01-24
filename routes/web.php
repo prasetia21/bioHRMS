@@ -45,9 +45,19 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::get('/absensi/masuk', [AttendanceController::class, 'inAttendance']);
     Route::post('/absensi/store', [AttendanceController::class, 'inStore']);
 
-    Route::get('/laporan/promotor', [ReportController::class, 'index']);
+    Route::get('/kirim-laporan/', [ReportController::class, 'index'])->name('kirim-laporan');
+    Route::post('/distance-apply', [ReportController::class, 'DistanceApply']);
+
+    Route::post('/create-promotor', [ReportController::class, 'storePromotor']);
+    Route::post('/create-sales-industri', [ReportController::class, 'storeSalesIndustri']);
+    Route::post('/create-sales-retail', [ReportController::class, 'storeSalesRetail']);
+    Route::post('/create-teknisi', [ReportController::class, 'storeTechnician']);
+    Route::post('/create-admin', [ReportController::class, 'storeAdmin']);
+
+    Route::get('/laporan-terkirim', [ReportController::class, 'send'])->name('laporan-terkirim');
 
     Route::get('/signout', [AuthController::class, 'prosesLogout']);
+    
 });
 
 Route::get('/manage', [HomeController::class, 'index'])->name('dashboard-manage');

@@ -18,5 +18,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="manifest" href="{{ asset('assets/__manifest.json') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/leaflet/leaflet.css') }}" />
+    <script src="https://kit.fontawesome.com/4a6f1bff27.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/vendor/leaflet/leaflet.js') }}"></script>
 </head>

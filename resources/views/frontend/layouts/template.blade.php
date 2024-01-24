@@ -1,8 +1,5 @@
 @include('frontend.layouts.body.head')
 
-@include('frontend.layouts.body.header')
-@include('frontend.layouts.body.navigation')
-
 <body>
 
     <!-- loader -->
