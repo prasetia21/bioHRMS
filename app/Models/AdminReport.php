@@ -14,16 +14,16 @@ class AdminReport extends Model
 
     public function departement()
     {
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(Departement::class, 'departement_id','id');
     }
 
     public function employee()
     {
-    	return $this->belongsTo(Employee::class);
+    	return $this->belongsTo(Employee::class, 'employee_id','id');
     }
 
     public function location()
     {
-    	return $this->belongsTo(Location::class);
+    	return $this->belongsTo(Location::class, 'location_id','id');
     }
 }

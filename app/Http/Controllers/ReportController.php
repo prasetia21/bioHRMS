@@ -13,15 +13,18 @@ use App\Models\TechnicianReport;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
 {
     function index()
     {
         $employee_id = Auth::guard('employee')->user()->id;
-        $employee = Employee::where('id', $employee_id)->first();
+        $employee = Employee::with('position')->with('departement')->where('id', $employee_id)->first();
 
+        
         $posisi = $employee->position->name;
         $departement_id = $employee->departement_id;
 
@@ -402,6 +405,401 @@ class ReportController extends Controller
 
     function send()
     {
-        return view('reports/laporan_terkirim');
+        return view('frontend.reports/laporan_terkirim');
+    }
+
+    function PromotorReport(Request $request): Response
+    {
+        $query = PromotorReport::query();
+        
+        $dateFilter = $request->date_filter;
+        $monthFilter = $request->month_filter;
+        //dd($dateFilter);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
+            case 'yesterday':
+                $query->wheredate('created_at', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'last_week':
+                $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $query->whereMonth('created_at', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $query->whereYear('created_at', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $query->whereYear('created_at', Carbon::now()->subYear()->year);
+                break;
+        }
+
+        switch ($monthFilter) {
+            case 'januari':
+                $query->whereMonth('created_at', Carbon::now()->month(1));
+                break;
+            case 'februari':
+                $query->whereMonth('created_at', Carbon::now()->month(2));
+                break;
+            case 'maret':
+                $query->whereMonth('created_at', Carbon::now()->month(3));
+                break;
+            case 'april':
+                $query->whereMonth('created_at', Carbon::now()->month(4));
+                break;
+            case 'mei':
+                $query->whereMonth('created_at', Carbon::now()->month(5));
+                break;
+            case 'juni':
+                $query->whereMonth('created_at', Carbon::now()->month(6));
+                break;
+            case 'juli':
+                $query->whereMonth('created_at', Carbon::now()->month(7));
+                break;
+            case 'agustus':
+                $query->whereMonth('created_at', Carbon::now()->month(8));
+                break;
+            case 'september':
+                $query->whereMonth('created_at', Carbon::now()->month(9));
+                break;
+            case 'oktober':
+                $query->whereMonth('created_at', Carbon::now()->month(10));
+                break;
+            case 'november':
+                $query->whereMonth('created_at', Carbon::now()->month(11));
+                break;
+            case 'desember':
+                $query->whereMonth('created_at', Carbon::now()->month(12));
+                break;
+        }
+
+        $data = $query->get();
+
+        return response()->view('backend.reports.promotor', compact('data', 'dateFilter', 'monthFilter'));
+    }
+
+    function salesIndustriReport(Request $request): Response
+    {
+        $query = SalesIndustriReport::query();
+        
+        $dateFilter = $request->date_filter;
+        $monthFilter = $request->month_filter;
+        //dd($dateFilter);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
+            case 'yesterday':
+                $query->wheredate('created_at', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'last_week':
+                $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $query->whereMonth('created_at', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $query->whereYear('created_at', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $query->whereYear('created_at', Carbon::now()->subYear()->year);
+                break;
+        }
+
+        switch ($monthFilter) {
+            case 'januari':
+                $query->whereMonth('created_at', Carbon::now()->month(1));
+                break;
+            case 'februari':
+                $query->whereMonth('created_at', Carbon::now()->month(2));
+                break;
+            case 'maret':
+                $query->whereMonth('created_at', Carbon::now()->month(3));
+                break;
+            case 'april':
+                $query->whereMonth('created_at', Carbon::now()->month(4));
+                break;
+            case 'mei':
+                $query->whereMonth('created_at', Carbon::now()->month(5));
+                break;
+            case 'juni':
+                $query->whereMonth('created_at', Carbon::now()->month(6));
+                break;
+            case 'juli':
+                $query->whereMonth('created_at', Carbon::now()->month(7));
+                break;
+            case 'agustus':
+                $query->whereMonth('created_at', Carbon::now()->month(8));
+                break;
+            case 'september':
+                $query->whereMonth('created_at', Carbon::now()->month(9));
+                break;
+            case 'oktober':
+                $query->whereMonth('created_at', Carbon::now()->month(10));
+                break;
+            case 'november':
+                $query->whereMonth('created_at', Carbon::now()->month(11));
+                break;
+            case 'desember':
+                $query->whereMonth('created_at', Carbon::now()->month(12));
+                break;
+        }
+
+        $data = $query->get();
+
+        return response()->view('backend.reports.sales_industries', compact('data', 'dateFilter', 'monthFilter'));
+    }
+
+    function salesRetailReport(Request $request): Response
+    {
+        $query = SalesRetailReport::query();
+        
+        $dateFilter = $request->date_filter;
+        $monthFilter = $request->month_filter;
+        //dd($dateFilter);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
+            case 'yesterday':
+                $query->wheredate('created_at', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'last_week':
+                $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $query->whereMonth('created_at', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $query->whereYear('created_at', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $query->whereYear('created_at', Carbon::now()->subYear()->year);
+                break;
+        }
+
+        switch ($monthFilter) {
+            case 'januari':
+                $query->whereMonth('created_at', Carbon::now()->month(1));
+                break;
+            case 'februari':
+                $query->whereMonth('created_at', Carbon::now()->month(2));
+                break;
+            case 'maret':
+                $query->whereMonth('created_at', Carbon::now()->month(3));
+                break;
+            case 'april':
+                $query->whereMonth('created_at', Carbon::now()->month(4));
+                break;
+            case 'mei':
+                $query->whereMonth('created_at', Carbon::now()->month(5));
+                break;
+            case 'juni':
+                $query->whereMonth('created_at', Carbon::now()->month(6));
+                break;
+            case 'juli':
+                $query->whereMonth('created_at', Carbon::now()->month(7));
+                break;
+            case 'agustus':
+                $query->whereMonth('created_at', Carbon::now()->month(8));
+                break;
+            case 'september':
+                $query->whereMonth('created_at', Carbon::now()->month(9));
+                break;
+            case 'oktober':
+                $query->whereMonth('created_at', Carbon::now()->month(10));
+                break;
+            case 'november':
+                $query->whereMonth('created_at', Carbon::now()->month(11));
+                break;
+            case 'desember':
+                $query->whereMonth('created_at', Carbon::now()->month(12));
+                break;
+        }
+
+        $data = $query->get();
+
+        return response()->view('backend.reports.sales_retails', compact('data', 'dateFilter', 'monthFilter'));
+    }
+
+    function teknisiReport(Request $request): Response
+    {
+        $query = TechnicianReport::query();
+        
+        $dateFilter = $request->date_filter;
+        $monthFilter = $request->month_filter;
+        //dd($dateFilter);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
+            case 'yesterday':
+                $query->wheredate('created_at', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'last_week':
+                $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $query->whereMonth('created_at', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $query->whereYear('created_at', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $query->whereYear('created_at', Carbon::now()->subYear()->year);
+                break;
+        }
+
+        switch ($monthFilter) {
+            case 'januari':
+                $query->whereMonth('created_at', Carbon::now()->month(1));
+                break;
+            case 'februari':
+                $query->whereMonth('created_at', Carbon::now()->month(2));
+                break;
+            case 'maret':
+                $query->whereMonth('created_at', Carbon::now()->month(3));
+                break;
+            case 'april':
+                $query->whereMonth('created_at', Carbon::now()->month(4));
+                break;
+            case 'mei':
+                $query->whereMonth('created_at', Carbon::now()->month(5));
+                break;
+            case 'juni':
+                $query->whereMonth('created_at', Carbon::now()->month(6));
+                break;
+            case 'juli':
+                $query->whereMonth('created_at', Carbon::now()->month(7));
+                break;
+            case 'agustus':
+                $query->whereMonth('created_at', Carbon::now()->month(8));
+                break;
+            case 'september':
+                $query->whereMonth('created_at', Carbon::now()->month(9));
+                break;
+            case 'oktober':
+                $query->whereMonth('created_at', Carbon::now()->month(10));
+                break;
+            case 'november':
+                $query->whereMonth('created_at', Carbon::now()->month(11));
+                break;
+            case 'desember':
+                $query->whereMonth('created_at', Carbon::now()->month(12));
+                break;
+        }
+
+        $data = $query->get();
+
+        return response()->view('backend.reports.technician', compact('data', 'dateFilter', 'monthFilter'));
+    }
+
+    function adminReport(Request $request): Response
+    {
+        $query = AdminReport::query();
+        
+        $dateFilter = $request->date_filter;
+        $monthFilter = $request->month_filter;
+        //dd($dateFilter);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
+            case 'yesterday':
+                $query->wheredate('created_at', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                break;
+            case 'last_week':
+                $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $query->whereMonth('created_at', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $query->whereYear('created_at', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $query->whereYear('created_at', Carbon::now()->subYear()->year);
+                break;
+        }
+
+        switch ($monthFilter) {
+            case 'januari':
+                $query->whereMonth('created_at', Carbon::now()->month(1));
+                break;
+            case 'februari':
+                $query->whereMonth('created_at', Carbon::now()->month(2));
+                break;
+            case 'maret':
+                $query->whereMonth('created_at', Carbon::now()->month(3));
+                break;
+            case 'april':
+                $query->whereMonth('created_at', Carbon::now()->month(4));
+                break;
+            case 'mei':
+                $query->whereMonth('created_at', Carbon::now()->month(5));
+                break;
+            case 'juni':
+                $query->whereMonth('created_at', Carbon::now()->month(6));
+                break;
+            case 'juli':
+                $query->whereMonth('created_at', Carbon::now()->month(7));
+                break;
+            case 'agustus':
+                $query->whereMonth('created_at', Carbon::now()->month(8));
+                break;
+            case 'september':
+                $query->whereMonth('created_at', Carbon::now()->month(9));
+                break;
+            case 'oktober':
+                $query->whereMonth('created_at', Carbon::now()->month(10));
+                break;
+            case 'november':
+                $query->whereMonth('created_at', Carbon::now()->month(11));
+                break;
+            case 'desember':
+                $query->whereMonth('created_at', Carbon::now()->month(12));
+                break;
+        }
+
+        $data = $query->get();
+
+        return response()->view('backend.reports.admin', compact('data', 'dateFilter', 'monthFilter'));
     }
 }

@@ -14,6 +14,6 @@ class Departement extends Model
 
     public function employee(): HasOne
     {
-        return $this->hasOne(Employee::class);
+        return $this->hasOne(Employee::class, 'employee_id','id');
     }
 }

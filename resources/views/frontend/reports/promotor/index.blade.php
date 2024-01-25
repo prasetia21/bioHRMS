@@ -117,9 +117,10 @@
             @csrf
 
             <div class="form-row">
-                <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id"
-                    name="employee_id" hidden />
-
+                <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id" name="employee_id"
+                    hidden />
+                <input type="text" class="form-control" value="{{ $employee->departement->branch }}" id="kantor_cabang"
+                    name="kantor_cabang" hidden />
                 <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_promotor"
                     name="nama_promotor" hidden />
 

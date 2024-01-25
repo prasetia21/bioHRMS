@@ -115,32 +115,27 @@
 
         <form id="frmSalesRetail" method="POST" enctype="multipart/form-data">
             @csrf
-            
+
             <div class="form-row">
-               
 
                 <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id"
-                name="employee_id" hidden />
-                <input type="text" class="form-control" id="nama_sales" name="nama_sales" value="{{ $employee->fullname }}" hidden>
-                <input type="text" class="form-control" value="{{ $info->ip }}" id="ip" name="ip"
-                    hidden />
-                <input type="text" class="form-control" id="latitude2"
-                    name="latitude2" hidden />
-                <input type="text" class="form-control" id="longitude2"
-                    name="longitude2" hidden />
-                <input type="text" class="form-control" value="{{ $info->cityName }}" id="city_name" name="city_name"
-                    hidden />
-                    <input type="text" class="form-control" id="latitude1" name="latitude1" value="{{ $latitudeDept }}"
-                    hidden />
-                <input type="text" class="form-control" id="longitude1" name="longitude1" value="{{ $longitudeDept }}"
-                    hidden />
+                    name="employee_id" hidden />
+                <input type="text" class="form-control" value="{{ $employee->departement->branch }}" id="kantor_cabang"
+                    name="kantor_cabang" hidden />
+                <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_sales"
+                    name="nama_sales" hidden />
+                <input type="text" class="form-control" value="{{ $info->ip }}" id="ip" name="ip" hidden />
+                <input type="text" class="form-control" id="latitude2" name="latitude2" hidden />
+                <input type="text" class="form-control" id="longitude2" name="longitude2" hidden />
+                <input type="text" class="form-control" value="{{ $info->cityName }}" id="city_name" name="city_name" hidden />
+                <input type="text" class="form-control" value="{{ $latitudeDept }}" id="latitude1" name="latitude1" hidden />
+                <input type="text" class="form-control" value="{{ $longitudeDept }}" id="longitude1" name="longitude1" hidden />
                 <input type="text" class="form-control" id="jarak" name="jarak" hidden />
                 <input type="text" class="form-control" id="keterangan" name="keterangan" hidden />
                 <input type="text" class="form-control" id="sharelok" name="sharelok" hidden />
 
                 <div class="form-group mb-5 col-md-12">
-                    <label for="waktu_kunjungan">Waktu Kunjungan <sup><span
-                                style="color: #dc3545">(*)</span></sup></label>
+                    <label for="waktu_kunjungan">Waktu Kunjungan <sup><span style="color: #dc3545">(*)</span></sup></label>
                     <input type="date" class="form-control" id="waktu_kunjungan" placeholder="Jawaban Anda...."
                         name="waktu_kunjungan" required>
                 </div>
@@ -149,8 +144,7 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group mb-5">
-                        <label for="nama_customer">Nama Customer <sup><span
-                                    style="color: #dc3545">(*)</span></sup></label>
+                        <label for="nama_customer">Nama Customer <sup><span style="color: #dc3545">(*)</span></sup></label>
                         <input type="text" class="form-control" id="nama_customer" placeholder="Jawaban Anda...."
                             name="nama_customer" required>
                     </div>
@@ -172,8 +166,8 @@
 
                     <div class="form-group mb-5">
                         <label for="jumlah_peserta">Jumlah Peserta</label>
-                        <input type="number" class="form-control" id="jumlah_peserta"
-                            placeholder="Jawaban Anda...." name="jumlah_peserta">
+                        <input type="number" class="form-control" id="jumlah_peserta" placeholder="Jawaban Anda...."
+                            name="jumlah_peserta">
                     </div>
                 </div>
 
@@ -189,8 +183,8 @@
 
                     <div class="form-group mb-5">
                         <label for="hasil_kunjungan">Hasil Kunjungan</label>
-                        <input type="text" class="form-control" id="hasil_kunjungan"
-                            placeholder="Jawaban Anda...." name="hasil_kunjungan">
+                        <input type="text" class="form-control" id="hasil_kunjungan" placeholder="Jawaban Anda...."
+                            name="hasil_kunjungan">
                     </div>
 
                     <div class="form-group mb-5">
@@ -233,12 +227,10 @@
             </div>
         </form>
     </div>
-    @endsection
+@endsection
 
-    @push('myscript')
-
+@push('myscript')
     <script type="text/javascript">
-
         $(document).ready(function() {
             getLocation(); // Call the function directly on page load
             applyDistance();

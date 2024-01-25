@@ -56,6 +56,13 @@ Route::middleware(['auth:employee'])->group(function () {
 
     Route::get('/laporan-terkirim', [ReportController::class, 'send'])->name('laporan-terkirim');
 
+    Route::get('/laporan-promotor', [ReportController::class, 'promotorReport'])->name('laporan-promotor');
+    Route::get('/laporan-sales-retail', [ReportController::class, 'salesRetailReport'])->name('laporan-sales-retail');
+    Route::get('/laporan-sales-industri', [ReportController::class, 'salesIndustriReport'])->name('laporan-sales-industri');
+    Route::get('/laporan-teknisi', [ReportController::class, 'teknisiReport'])->name('laporan-teknisi');
+    Route::get('/laporan-admin', [ReportController::class, 'adminReport'])->name('laporan-admin');
+
+
     Route::get('/signout', [AuthController::class, 'prosesLogout']);
     
 });
@@ -120,3 +127,4 @@ Route::post('/manage/news/change', [NewsController::class, 'change'])->name('cha
 Route::post('/manage/news/remove/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
 Route::get('/news/{param}', [NewsController::class, 'detail'])->name('detail.news');
 Route::post('/manage/news/approve/{id}', [NewsController::class, 'approve'])->name('approve.news');
+

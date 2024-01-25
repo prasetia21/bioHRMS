@@ -119,7 +119,8 @@
 
                 <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id" name="employee_id"
                     hidden />
-
+                <input type="text" class="form-control" value="{{ $employee->departement->branch }}" id="kantor_cabang"
+                    name="kantor_cabang" hidden />
                 <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_admin"
                     name="nama_admin" hidden />
                 <input type="text" class="form-control" id="fileContent" name="fileContent" hidden />
@@ -132,7 +133,8 @@
                     hidden />
                 <input type="text" class="form-control" id="latitude1" name="latitude1" value="{{ $latitudeDept }}"
                     hidden />
-                <input type="text" class="form-control" id="longitude1" name="longitude1" value="{{ $longitudeDept }}" hidden />
+                <input type="text" class="form-control" id="longitude1" name="longitude1" value="{{ $longitudeDept }}"
+                    hidden />
                 <input type="text" class="form-control" id="jarak" name="jarak" hidden />
                 <input type="text" class="form-control" id="keterangan" name="keterangan" hidden />
                 <input type="text" class="form-control" id="sharelok" name="sharelok" hidden />

@@ -59,7 +59,7 @@
                     <i class="fas fa-file-upload"></i>
                     <a href="{{ route('kirim-laporan') }}" class="btn btn-outline-dark btn-lg">Kirim Laporan</a>
                     <span class="count-name">Laporan Terkirim</span>
-                    <span class="count-numbers">{{ $hadir->jmlHadir }}</span>
+                    <span class="count-numbers">{{ $report->jmlLaporan }}</span>
                 </div>
             </div>
         </div>

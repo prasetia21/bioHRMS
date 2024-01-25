@@ -1,7 +1,7 @@
 @extends('frontend.layouts.template')
 
 @section('title')
-    Laporan Promotor - BIO HRMS
+    Laporan Terkirim - BIO HRMS
 @endsection
 
 @section('header')

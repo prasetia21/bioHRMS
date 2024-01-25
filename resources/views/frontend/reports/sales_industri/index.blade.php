@@ -120,6 +120,8 @@
 
                 <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id"
                     name="employee_id" hidden />
+                    <input type="text" class="form-control" value="{{ $employee->departement->branch }}" id="kantor_cabang"
+                    name="kantor_cabang" hidden />
                 <input type="text" class="form-control" id="nama_sales" name="nama_sales" hidden>
                 <input type="text" class="form-control" value="{{ $info->ip }}" value="{{ $employee->fullname }}" id="ip" name="ip"
                     hidden />

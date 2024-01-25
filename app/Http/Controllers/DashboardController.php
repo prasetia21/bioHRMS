@@ -46,45 +46,45 @@ class DashboardController extends Controller
         if ($posisi == 'Promotor') {
 
             $report = PromotorReport::selectRaw('COUNT(id) as jmlLaporan')
-            ->where('id', $employee_id)
-            ->whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
+            ->where('employee_id', $employee_id)
+            ->whereMonth('created_at', $month )
+            ->whereYear('created_at', $year )
             ->first();
 
             return view('frontend.dashboard.promotor', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
         } elseif ($posisi == 'Sales Retail') {
 
             $report = SalesRetailReport::selectRaw('COUNT(id) as jmlLaporan')
-            ->where('id', $employee_id)
-            ->whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
+            ->where('employee_id', $employee_id)
+            ->whereMonth('created_at', $month )
+            ->whereYear('created_at', $year )
             ->first();
 
             return view('frontend.dashboard.sales_retail', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
         } elseif ($posisi == 'Sales Industri') {
 
             $report = SalesIndustriReport::selectRaw('COUNT(id) as jmlLaporan')
-            ->where('id', $employee_id)
-            ->whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
+            ->where('employee_id', $employee_id)
+            ->whereMonth('created_at', $month )
+            ->whereYear('created_at', $year )
             ->first();
 
             return view('frontend.dashboard.sales_industri', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
         } elseif ($posisi == 'Teknisi') {
 
             $report = TechnicianReport::selectRaw('COUNT(id) as jmlLaporan')
-            ->where('id', $employee_id)
-            ->whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
+            ->where('employee_id', $employee_id)
+            ->whereMonth('created_at', $month )
+            ->whereYear('created_at', $year )
             ->first();
 
             return view('frontend.dashboard.technician', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
         } elseif ($posisi == 'Admin') {
 
             $report = AdminReport::selectRaw('COUNT(id) as jmlLaporan')
-            ->where('id', $employee_id)
-            ->whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
+            ->where('employee_id', $employee_id)
+            ->whereMonth('created_at', $month )
+            ->whereYear('created_at', $year )
             ->first();
 
             return view('frontend.dashboard.user', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
