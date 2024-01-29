@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Departement;
 use App\Models\Employee;
+use App\Models\Leave;
 use App\Models\Position;
 use App\Models\UserLevel;
 use Carbon\Carbon;
@@ -94,7 +95,7 @@ class EmployeeController extends Controller
             $photo = "user.jpeg";
         }
 
-        Employee::create([
+        $pegawai = Employee::insertGetId([
             'user_level_id' => $request->user_level_id,
             'position_id' => $request->position_id,
             'departement_id' => $request->departement_id,
@@ -110,6 +111,13 @@ class EmployeeController extends Controller
             'start_work_date' => $workDate,
             'contact_date' => $request->contact_date,
             'status' => $request->status,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        Leave::create([
+            'employee_id' => $pegawai,
+            'total_days' => 12,
         ]);
 
         Session::flash('success', 'Data berhasil ditambahkan.');
@@ -213,13 +221,20 @@ class EmployeeController extends Controller
             'departement_id.required' => 'Departemen Wajib Di isi',
         ]);
 
-        Employee::create([
+        $pegawai = Employee::insertGetId([
             'user_level_id' => $request->user_level_id,
             'position_id' => $request->position_id,
             'departement_id' => $request->departement_id,
             'phone' => $request->phone,
             'password' => $request->password,
             'fullname' => $request->fullname,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        Leave::create([
+            'employee_id' => $pegawai->id,
+            'total_days' => 12,
         ]);
 
         Session::flash('success', 'User berhasil didaftarkan.');

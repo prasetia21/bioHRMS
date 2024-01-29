@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('work_permits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('present_id');
             $table->date('start_date');
             $table->date('end_date');
             $table->text('note')->nullable();
@@ -21,6 +22,9 @@ return new class extends Migration
             $table->boolean('approval')->default(false);
             $table->foreign('employee_id')
                 ->references('id')->on('employees')
+                ->onDelete('cascade');
+            $table->foreign('present_id')
+                ->references('id')->on('presents')
                 ->onDelete('cascade');
             $table->timestamps();
         });

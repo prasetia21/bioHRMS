@@ -14,7 +14,7 @@
                 </div>
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="">
+                        <a href="{{ route('cuti') }}">
                             <img src="{{ asset('assets/img/upload/web/calendar-date.svg') }}" alt="avatar" class="imaged w64 rounded">
                         </a>
                     </div>
@@ -24,12 +24,12 @@
                 </div>
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="">
+                        <a href="{{ route('ijin') }}">
                             <img src="{{ asset('assets/img/upload/web/clipboard.svg') }}" alt="avatar" class="imaged w64 rounded">
                         </a>
                     </div>
                     <div class="menu-name">
-                        <span class="text-center">Histori</span>
+                        <span class="text-center">Ijin</span>
                     </div>
                 </div>
                 <div class="item-menu text-center">

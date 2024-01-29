@@ -115,7 +115,6 @@ Absensi - BIO HRMS
         }
 
         function showPosition(position) {
-
             let config = {
                 minZoom: 17,
                 maxZoom: 18,
@@ -124,6 +123,8 @@ Absensi - BIO HRMS
             const zoom = 13;
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
+
+            lokasi.value = lat + "," + lng;
 
             const map = L.map("map", config).setView([lat, lng], zoom);
 
@@ -177,11 +178,12 @@ Absensi - BIO HRMS
 
 
         $("#absen").click(function(e) {
+            
             Webcam.snap(function(data_uri) {
                 image = data_uri;
             });
             let lokasi = $("#lokasi").val();
-         
+            
             $.ajax({
                 type: 'POST',
                 url: '/absensi/store',

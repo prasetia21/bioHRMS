@@ -12,8 +12,14 @@ class WorkPermit extends Model
     public $table = 'work_permits';
     protected $guarded = [];
 
+
     public function employee()
     {
-    	return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_id','id');
+    }
+
+    public function present()
+    {
+        return $this->belongsTo(Present::class, 'present_id','id');
     }
 }

@@ -96,7 +96,7 @@
             <div class="col-md-3">
                 <div class="card-counter danger">
                     <i class='fas fa-user-clock'></i>
-                    <span class="count-numbers">10</span>
+                    <span class="count-numbers">{{ $telat->jmlTelat }}</span>
                     <span class="count-name">Terlambat</span>
                 </div>
             </div>

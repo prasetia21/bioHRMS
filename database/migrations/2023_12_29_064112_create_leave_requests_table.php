@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('note')->nullable();
+            $table->string('pic')->nullable();
             $table->string('attachment')->nullable();
             $table->boolean('approval')->default(false);
             $table->foreign('employee_id')

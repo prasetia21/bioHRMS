@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->integer('total_days');
-            $table->string('status')->nullable();
+            $table->string('status')->nullable(); 
             $table->foreign('employee_id')
                 ->references('id')->on('employees')
                 ->onDelete('cascade');

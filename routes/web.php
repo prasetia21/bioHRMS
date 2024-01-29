@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PositionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLevelController;
+use App\Http\Controllers\WorkPermitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +47,7 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::get('/absensi/masuk', [AttendanceController::class, 'inAttendance']);
     Route::post('/absensi/store', [AttendanceController::class, 'inStore']);
 
-    Route::get('/kirim-laporan/', [ReportController::class, 'index'])->name('kirim-laporan');
+    Route::get('/kirim-laporan', [ReportController::class, 'index'])->name('kirim-laporan');
     Route::post('/distance-apply', [ReportController::class, 'DistanceApply']);
 
     Route::post('/create-promotor', [ReportController::class, 'storePromotor']);
@@ -62,6 +64,11 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::get('/laporan-teknisi', [ReportController::class, 'teknisiReport'])->name('laporan-teknisi');
     Route::get('/laporan-admin', [ReportController::class, 'adminReport'])->name('laporan-admin');
 
+    Route::get('/pengajuan-ijin', [WorkPermitController::class, 'index'])->name('ijin');
+    Route::post('/pengajuan-ijin/store', [WorkPermitController::class, 'store'])->name('store.ijin');
+
+
+    Route::get('/pengajuan-cuti', [LeaveController::class, 'index'])->name('cuti');
 
     Route::get('/signout', [AuthController::class, 'prosesLogout']);
     

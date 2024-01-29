@@ -34,7 +34,14 @@ class DashboardController extends Controller
             ->get();
 
         $hadir = Presence::selectRaw('COUNT(id) as jmlHadir')
-            ->where('id', $employee_id)
+            ->where('employee_id', $employee_id)
+            ->whereRaw('MONTH(presence_date)="' . $month . '"')
+            ->whereRaw('YEAR(presence_date)="' . $year . '"')
+            ->first();
+
+        $telat = Presence::selectRaw('COUNT(id) as jmlTelat')
+            ->where('employee_id', $employee_id)
+            ->where('present_id', 4)
             ->whereRaw('MONTH(presence_date)="' . $month . '"')
             ->whereRaw('YEAR(presence_date)="' . $year . '"')
             ->first();
@@ -51,7 +58,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $year )
             ->first();
 
-            return view('frontend.dashboard.promotor', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.promotor', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Sales Retail') {
 
             $report = SalesRetailReport::selectRaw('COUNT(id) as jmlLaporan')
@@ -60,7 +67,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $year )
             ->first();
 
-            return view('frontend.dashboard.sales_retail', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.sales_retail', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Sales Industri') {
 
             $report = SalesIndustriReport::selectRaw('COUNT(id) as jmlLaporan')
@@ -69,7 +76,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $year )
             ->first();
 
-            return view('frontend.dashboard.sales_industri', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.sales_industri', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Teknisi') {
 
             $report = TechnicianReport::selectRaw('COUNT(id) as jmlLaporan')
@@ -78,7 +85,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $year )
             ->first();
 
-            return view('frontend.dashboard.technician', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.technician', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Admin') {
 
             $report = AdminReport::selectRaw('COUNT(id) as jmlLaporan')
@@ -87,17 +94,17 @@ class DashboardController extends Controller
             ->whereYear('created_at', $year )
             ->first();
 
-            return view('frontend.dashboard.user', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.user', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Online') {
-            return view('frontend.dashboard.online', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.online', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Manager') {
-            return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'HR') {
-            return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Produksi') {
-            return view('frontend.dashboard.production', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.production', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } else {
-            return view('frontend.dashboard.user', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'report'));
+            return view('frontend.dashboard.user', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         }
     }
 }
