@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Departement;
 use App\Models\Employee;
 use App\Models\Presence;
+use App\Models\ReqWorkPermit;
 use App\Models\WorkPermit;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -19,6 +20,8 @@ class WorkPermitController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $hariini = date('Y-m-d');
         $employee_id = Auth::guard('employee')->user()->id;
 
@@ -39,7 +42,9 @@ class WorkPermitController extends Controller
     {
         $employee_id = Auth::guard('employee')->user()->id;
 
+
         $attachment = '';
+        $departement = $request->kantor_cabang;
         $inputstartdate = $request->start_date;
         $inputenddate = $request->end_date;
 
@@ -96,7 +101,8 @@ class WorkPermitController extends Controller
                 'present_id' => $request->present_id,
                 'note' => $request->note,
                 'attachment' => $attachment,
-                'approval' => true,
+                'approval_1' => true,
+                'approval_2' => true,
             ]);
 
             if ($jumlah_hari == 1) {
@@ -109,6 +115,9 @@ class WorkPermitController extends Controller
                     'photo_in'  => $attachment,
                     'photo_out'  => $attachment,
                 ]);
+
+                Session::flash('success', 'Pengajuan Berhasil');
+                return redirect('/dashboard');
             } else {
 
                 foreach ($dateRange as $date => $value) {
@@ -122,42 +131,251 @@ class WorkPermitController extends Controller
                         'photo_out'  => $attachment,
                     ]);
                 }
+                Session::flash('success', 'Pengajuan Berhasil');
+                return redirect('/dashboard');
             }
         } else {
-            $ijin = WorkPermit::insertGetId([
+            // $ijin = WorkPermit::insertGetId([
+            //     'start_date' => $startDate,
+            //     'end_date' => $endDate,
+            //     'employee_id' => $employee_id,
+            //     'present_id' => $request->present_id,
+            //     'note' => $request->note,
+            //     'attachment' => $attachment,
+            //     'approval' => false,
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ]);
+
+            $hariini = date('Y-m-d');
+
+
+            // Session::push('ijin', ([
+            //     'employee_id'  => $employee_id,
+            //     'present_id' => $request->present_id,
+            //     'presence_date' => $value->format('Y-m-d'),
+            //     'req_date' => $hariini,
+            //     'time_in' => $time,
+            //     'time_out' => '00:00:00',
+            //     'photo_in'  => $attachment,
+            //     'photo_out'  => $attachment,
+            //     'start_date' => $startDate,
+            //     'end_date' => $endDate,
+            //     'note' => $request->note,
+            //     'attachment' => $attachment,
+            //     'approval_1' => false,
+            //     'approval_2' => false,
+            // ]));
+
+            ReqWorkPermit::create([
+                'employee_id'  => $employee_id,
+                'present_id' => $request->present_id,
+                'req_date' => $hariini,
+                'time_in' => $time,
+                'time_out' => '00:00:00',
+                'photo_in'  => $attachment,
+                'photo_out'  => $attachment,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
-                'employee_id' => $employee_id,
-                'present_id' => $request->present_id,
                 'note' => $request->note,
                 'attachment' => $attachment,
-                'approval' => false,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'departement' => $departement,
+                'approval_1' => false,
+                'approval_2' => false,
             ]);
 
-            foreach ($dateRange as $date => $value) {
-                Session::push('ijin', ([
-                    'id_ijin' => $ijin,
-                    'employee_id'  => $employee_id,
-                    'present_id' => $request->present_id,
-                    'presence_date' => $value->format('Y-m-d'),
-                    'time_in' => $time,
-                    'time_out' => '00:00:00',
-                    'photo_in'  => $attachment,
-                    'photo_out'  => $attachment,
-                ]));
-            }
+            Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
+            return redirect('/dashboard');
         }
+    }
 
-        
+    function tolakIjin(Request $request)
+    {
+        $hariini = date('Y-m-d');
+
+        $ijin = ReqWorkPermit::where('req_date', $hariini)->count();
+
+        if ($ijin >= 1) {
+            $idPegawai = $request->id;
+            $ijin = ReqWorkPermit::with('employee')
+                ->with('present')
+                ->where('req_date', $hariini)
+                ->where('employee_id', $idPegawai)
+                ->first();
+
+            $namaReq = $request->route()->getName();
+
+            if ($namaReq == "tolak.hr") {
+                ReqWorkPermit::where('employee_id', $idPegawai)
+                    ->update([
+                        'approval_1' => $request->approval_1,
+                        'reject_1' => $request->reject_1,
+                        'status_1' => $request->status_1,
+                    ]);
+                $cekIjin = ReqWorkPermit::where('employee_id', $idPegawai)->first();
+
+
+                if (
+                    $cekIjin->approval_1 == 0 &&
+                    $cekIjin->status_1 != null &&
+                    ($cekIjin->approval_2 == 0 && $cekIjin->status_2 != null)
+                ) {
+                   
+                    ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
+                }
+                Session::flash('success', 'Berhasil Ditolak');
+                return Redirect::back();
+            } elseif ($namaReq == "tolak.manager") {
+                ReqWorkPermit::where('employee_id', $idPegawai)
+                    ->update([
+                        'approval_2' => $request->approval_2,
+                        'reject_2' => $request->reject_2,
+                        'status_2' => $request->status_2,
+                    ]);
+                $cekIjin = ReqWorkPermit::where('employee_id', $idPegawai)->first();
+                if (
+                    $cekIjin->approval_1 == 0 &&
+                    $cekIjin->status_1 != null &&
+                    ($cekIjin->approval_2 == 0 && $cekIjin->status_2 != null)
+                ) {
+                   
+                    ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
+                }
+                Session::flash('success', 'Berhasil Ditolak');
+                return Redirect::back();
+            }
+        } else {
+            Session::flash('danger', 'Request Sesi Berakhir');
+            return Redirect::back();
+        }
+    }
+
+    function approveIjin(Request $request)
+    {
+        $hariini = date('Y-m-d');
+
+        $ijin = ReqWorkPermit::where('req_date', $hariini)->count();
+
+
+        if ($ijin >= 1) {
+            $idPegawai = $request->id;
+
+            $ijin = ReqWorkPermit::with('employee')
+                ->with('present')
+                ->where('req_date', $hariini)
+                ->where('employee_id', $idPegawai)
+                ->first();
+
+            $presentId = $ijin->present_id;
+            $timeIn = $ijin->time_in;
+            $fotoin = $ijin->attachment;
+            $fotoout = $ijin->attachment;
+
+            $namaReq = $request->route()->getName();
+
+
+            if ($namaReq == "approve.hr") {
+                ReqWorkPermit::where('employee_id', $idPegawai)
+                    ->update([
+                        'approval_1' => $request->approval_1,
+                        'status_1' => $request->status_1,
+                    ]);
+
+                $cekIjin = ReqWorkPermit::where('employee_id', $idPegawai)->first();
+
+
+                if ($cekIjin->approval_1 == 1 && $cekIjin->approval_2 == 1) {
+                    $dateRange = $this->dateRange($cekIjin->start_date, $cekIjin->end_date);
+
+                    WorkPermit::create([
+                        'req_date' => $hariini,
+                        'start_date' => $cekIjin->start_date,
+                        'end_date' => $cekIjin->end_date,
+                        'employee_id' => $cekIjin->employee_id,
+                        'present_id' => $cekIjin->present_id,
+                        'note' => $cekIjin->note,
+                        'attachment' => $cekIjin->attachment,
+                        'approval_1' => $cekIjin->approval_1,
+                        'approval_2' => $cekIjin->approval_2,
+                    ]);
+
+                    // $dateRange = $ijin[0]['start_date'];
+                    // dd($dateRange);
+                    foreach ($dateRange as $date => $value) {
+                        Presence::create([
+                            'employee_id'  => $idPegawai,
+                            'present_id' => $presentId,
+                            'presence_date' => $value->format('Y-m-d'),
+                            'time_in' => $timeIn,
+                            'time_out' => '00:00:00',
+                            'photo_in'  => $fotoin,
+                            'photo_out'  => $fotoout,
+                        ]);
+                    }
+
+                    ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
+                    Session::flash('success', 'Berhasil Disetujui');
+                    return Redirect::back();
+                } else {
+                    Session::flash('success', 'Berhasil Disetujui');
+                    return Redirect::back();
+                }
+            } elseif ($namaReq == "approve.manager") {
+
+                ReqWorkPermit::where('employee_id', $idPegawai)
+                    ->update([
+                        'approval_2' => $request->approval_2,
+                        'status_2' => $request->status_2,
+                    ]);
+
+                $cekIjin = ReqWorkPermit::where('employee_id', $idPegawai)->first();
+
+                if ($cekIjin->approval_1 == 1 && $cekIjin->approval_2 == 1) {
+                    $dateRange = $this->dateRange($cekIjin->start_date, $cekIjin->end_date);
+
+                    WorkPermit::create([
+                        'req_date' => $hariini,
+                        'start_date' => $cekIjin->start_date,
+                        'end_date' => $cekIjin->end_date,
+                        'employee_id' => $cekIjin->employee_id,
+                        'present_id' => $cekIjin->present_id,
+                        'note' => $cekIjin->note,
+                        'attachment' => $cekIjin->attachment,
+                        'approval_1' => $cekIjin->approval_1,
+                        'approval_2' => $cekIjin->approval_2,
+                    ]);
+
+                    // $dateRange = $ijin[0]['start_date'];
+                    // dd($dateRange);
+                    foreach ($dateRange as $date => $value) {
+                        Presence::create([
+                            'employee_id'  => $idPegawai,
+                            'present_id' => $presentId,
+                            'presence_date' => $value->format('Y-m-d'),
+                            'time_in' => $timeIn,
+                            'time_out' => '00:00:00',
+                            'photo_in'  => $fotoin,
+                            'photo_out'  => $fotoout,
+                        ]);
+                    }
+                    ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
+
+                    Session::flash('success', 'Berhasil Disetujui');
+                    return Redirect::back();
+                } else {
+                    Session::flash('success', 'Berhasil Disetujui');
+                    return Redirect::back();
+                }
+            }
+        } else {
+            Session::flash('danger', 'Tidak Ada Pengajuan');
+            return Redirect::back();
+        }
     }
 
     function dateRange($startDate, $endDate)
     {
         $period = CarbonPeriod::create($startDate, $endDate);
-
-
 
         // Convert the period to an array of dates
         $dates = $period->toArray();

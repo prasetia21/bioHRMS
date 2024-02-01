@@ -67,6 +67,11 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::get('/pengajuan-ijin', [WorkPermitController::class, 'index'])->name('ijin');
     Route::post('/pengajuan-ijin/store', [WorkPermitController::class, 'store'])->name('store.ijin');
 
+    Route::post('/acc-ijin/hr', [WorkPermitController::class, 'approveIjin'])->name('approve.hr');
+    Route::post('/acc-ijin/manager', [WorkPermitController::class, 'approveIjin'])->name('approve.manager');
+    Route::post('/tolak-ijin/hr', [WorkPermitController::class, 'tolakIjin'])->name('tolak.hr');
+    Route::post('/tolak-ijin/manager', [WorkPermitController::class, 'tolakIjin'])->name('tolak.manager');
+
 
     Route::get('/pengajuan-cuti', [LeaveController::class, 'index'])->name('cuti');
 

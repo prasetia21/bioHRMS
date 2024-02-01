@@ -9,6 +9,7 @@ use App\Models\Position;
 use App\Models\UserLevel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -54,6 +55,8 @@ class EmployeeController extends Controller
         $format = 'd-m-Y';
         $formatdate = 'Y-m-d';
         $date = Carbon::parse($inputdate)->format($format);
+        $passDate = str_replace('-', '', $date);
+
         $birthDate = Carbon::parse($inputdate)->format($formatdate);
         $workDate = Carbon::parse($inputstartdate)->format($formatdate);
 
@@ -101,7 +104,7 @@ class EmployeeController extends Controller
             'departement_id' => $request->departement_id,
             'nip' => $request->nip,
             'phone' => $request->phone,
-            'password' => $date,
+            'password' => Hash::make($passDate),
             'fullname' => $request->fullname,
             'photo' => $photo,
             'gender' => $request->gender,
@@ -226,7 +229,7 @@ class EmployeeController extends Controller
             'position_id' => $request->position_id,
             'departement_id' => $request->departement_id,
             'phone' => $request->phone,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'fullname' => $request->fullname,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

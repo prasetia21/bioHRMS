@@ -54,8 +54,15 @@ class DashboardController extends Controller
 
         // posisi
         if ($posisi == 'Promotor') {
-            
+            $hariini = date('Y-m-d');
 
+            $cekReqIjin = WorkPermit::where('req_date', $hariini)
+            ->where('employee_id', $employee_id)
+            ->where('approval_1', '1')
+            ->where('approval_2', '1')
+            ->count();
+
+         
             $report = PromotorReport::selectRaw('COUNT(id) as jmlLaporan')
                 ->where('employee_id', $employee_id)
                 ->whereMonth('created_at', $month)
@@ -65,23 +72,13 @@ class DashboardController extends Controller
             return view('frontend.dashboard.promotor', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Sales Retail') {
 
-            $hariini = date('Y-m-d');
-
-            $cekReqIjin = ReqWorkPermit::where('req_date', $hariini)
-                ->where('employee_id', $employee_id)
-                ->first();
-
-            $cekAccIjin = ReqWorkPermit::onlyTrashed()->first();
-
-            
-               
             $report = SalesRetailReport::selectRaw('COUNT(id) as jmlLaporan')
                 ->where('employee_id', $employee_id)
                 ->whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
                 ->first();
 
-            return view('frontend.dashboard.sales_retail', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report', 'cekReqIjin', 'cekAccIjin'));
+            return view('frontend.dashboard.sales_retail', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } elseif ($posisi == 'Sales Industri') {
 
             $report = SalesIndustriReport::selectRaw('COUNT(id) as jmlLaporan')
@@ -117,25 +114,65 @@ class DashboardController extends Controller
 
             $hariini = date('Y-m-d');
 
-            $ijin = ReqWorkPermit::with('employee.departement')
-                ->with('employee.position')
-                ->with('present')
-                ->where('req_date', $hariini)
-                ->where('approval_2', '0')
-                ->where('departement', $dept)
-                ->get();
+            $jmlIjin = ReqWorkPermit::with('employee.departement')
+                    ->with('present')
+                    ->where('req_date', $hariini)
+                    ->where('approval_2', '0')
+                    ->count();
+                    
+            if ($jmlIjin > 1) {
 
-            return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin'));
+                $ijin = ReqWorkPermit::with('employee.departement')
+                    ->with('present')
+                    ->where('req_date', $hariini)
+                    ->where('approval_2', '0')
+                    ->where('departement', $dept)
+                    ->get();
+
+                return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin', 'jmlIjin'));
+            } else if ($jmlIjin == 1) {
+                $ijin = ReqWorkPermit::with('employee.departement')
+                    ->with('present')
+                    ->where('req_date', $hariini)
+                    ->where('approval_2', '0')
+                    ->where('departement', $dept)
+                    ->first();
+
+                   if ($ijin == 1) {
+                    return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin', 'jmlIjin'));
+                   } else {
+                    return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat'));
+                   }
+                   
+            } else {
+                return view('frontend.dashboard.manager', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'jmlIjin'));
+            }
         } elseif ($posisi == 'HR') {
             $hariini = date('Y-m-d');
 
-            $ijin = ReqWorkPermit::with('employee.position')
-                ->with('present')
-                ->where('req_date', $hariini)
-                ->where('approval_1', '0')
-                ->get();
+            $jmlIjin = ReqWorkPermit::where('req_date', $hariini)->where('approval_1', '0')->count();
 
-            return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin'));
+
+            if ($jmlIjin > 1) {
+
+                $ijin = ReqWorkPermit::with('employee')
+                    ->with('present')
+                    ->where('req_date', $hariini)
+                    ->where('approval_1', '0')
+                    ->get();
+
+                return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin', 'jmlIjin'));
+            } else if ($jmlIjin == 1) {
+                $ijin = ReqWorkPermit::with('employee')
+                    ->with('present')
+                    ->where('req_date', $hariini)
+                    ->where('approval_1', '0')
+                    ->first();
+
+                return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'ijin', 'jmlIjin'));
+            } else {
+                return view('frontend.dashboard.hr', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'jmlIjin'));
+            }
         } elseif ($posisi == 'Produksi') {
             return view('frontend.dashboard.production', compact('todayattendance', 'employee', 'history',  'numbermonth', 'namemonth', 'year', 'hadir', 'telat', 'report'));
         } else {

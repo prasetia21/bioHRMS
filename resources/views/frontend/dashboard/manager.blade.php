@@ -1,16 +1,42 @@
 @extends('frontend.layouts.template')
 
+@section('title')
+    {{ $employee->fullname . ' / ' . $employee->departement->name }} - BIO HRMS
+@endsection
+
+@section('header')
+    <style>
+        .stamp {
+            transform: rotate(12deg);
+            color: #555;
+            font-size: 3rem;
+            font-weight: 700;
+            border: 0.25rem solid #555;
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            text-transform: uppercase;
+            border-radius: 1rem;
+            font-family: 'Courier';
+            -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
+            -webkit-mask-size: 944px 604px;
+            mix-blend-mode: multiply;
+        }
+
+        .is-denied {
+            color: #cf180b;
+            border: 0.5rem solid #991f0a;
+            -webkit-mask-position: 13rem 6rem;
+            transform: rotate(-14deg);
+            border-radius: 0;
+        }
+    </style>
+@endsection
+
 @include('frontend.layouts.body.header')
 @include('frontend.layouts.body.navigation')
 
 @section('main')
-
-@section('title')
-{{ $employee->fullname . ' / ' . $employee->departement->name }} - BIO HRMS
-@endsection
-
-{{-- Content Goes Here --}}
-@include('frontend.dashboard.position.manager')
-{{-- End Content Goes Here --}}
-
+    {{-- Content Goes Here --}}
+    @include('frontend.dashboard.position.manager')
+    {{-- End Content Goes Here --}}
 @endsection

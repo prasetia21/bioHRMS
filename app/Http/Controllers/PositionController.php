@@ -35,10 +35,9 @@ class PositionController extends Controller
     function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required',
         ], [
             'name.required' => 'Nama Posisi Wajib Di isi',
-            'name.min' => 'Kolom Nama Posisi minimal harus 3 karakter.',
         ]);
 
         Position::create([
@@ -52,10 +51,9 @@ class PositionController extends Controller
     function change(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required',
         ], [
             'name.required' => 'Nama Posisi Wajib Di isi',
-            'name.min' => 'Kolom Nama Posisi minimal harus 3 karakter.',
         ]);
 
         $office = Position::find($request->id);
