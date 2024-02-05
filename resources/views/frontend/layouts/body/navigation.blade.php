@@ -12,6 +12,18 @@
                         <span class="text-center">Profil</span>
                     </div>
                 </div>
+                @if (!empty($cekReqCuti) && $cekReqCuti->req_date == $hariini)
+                <div class="item-menu text-center">
+                    <div class="menu-icon">
+                        <a>
+                            <img src="{{ asset('assets/img/upload/web/calendar-date.svg') }}" alt="avatar" class="imaged w64 rounded opacity-25">
+                        </a>
+                    </div>
+                    <div class="menu-name">
+                        <span class="text-center">Cuti</span>
+                    </div>
+                </div>
+                @else
                 <div class="item-menu text-center">
                     <div class="menu-icon">
                         <a href="{{ route('cuti') }}">
@@ -22,6 +34,20 @@
                         <span class="text-center">Cuti</span>
                     </div>
                 </div>
+                @endif
+
+                @if (!empty($cekReqIjin) && $cekReqIjin->req_date == $hariini)
+                <div class="item-menu text-center">
+                    <div class="menu-icon">
+                        <a>
+                            <img src="{{ asset('assets/img/upload/web/clipboard.svg') }}" alt="avatar" class="imaged w64 rounded opacity-25">
+                        </a>
+                    </div>
+                    <div class="menu-name">
+                        <span class="text-center">Ijin</span>
+                    </div>
+                </div>
+                @else
                 <div class="item-menu text-center">
                     <div class="menu-icon">
                         <a href="{{ route('ijin') }}">
@@ -32,6 +58,9 @@
                         <span class="text-center">Ijin</span>
                     </div>
                 </div>
+                @endif
+
+                
                 <div class="item-menu text-center">
                     <div class="menu-icon">
                         <a href="">

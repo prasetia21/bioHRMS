@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Departement;
 use App\Models\Employee;
+use App\Models\GetLeave;
 use App\Models\Leave;
 use App\Models\Position;
 use App\Models\UserLevel;
@@ -118,7 +119,7 @@ class EmployeeController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        Leave::create([
+        GetLeave::create([
             'employee_id' => $pegawai,
             'total_days' => 12,
         ]);
@@ -235,7 +236,7 @@ class EmployeeController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        Leave::create([
+        GetLeave::create([
             'employee_id' => $pegawai->id,
             'total_days' => 12,
         ]);

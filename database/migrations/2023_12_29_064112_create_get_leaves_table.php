@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leaves', function (Blueprint $table) {
+        Schema::create('get_leaves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->integer('total_days');
-            $table->string('status')->nullable(); 
             $table->foreign('employee_id')
                 ->references('id')->on('employees')
                 ->onDelete('cascade');
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leaves');
+        Schema::dropIfExists('get_leaves');
     }
 };

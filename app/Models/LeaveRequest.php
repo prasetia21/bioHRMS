@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeaveRequest extends Model
 {
-    use HasFactory;
+    use HasFactory, Prunable, SoftDeletes;
 
     public $table = 'leave_requests';
     protected $guarded = [];
@@ -20,5 +22,15 @@ class LeaveRequest extends Model
     public function leave()
     {
     	return $this->belongsTo(Leave::class);
+    }
+
+    public function present()
+    {
+    	return $this->belongsTo(Present::class);
+    }
+
+    public function prunable()
+    {
+        return static::where('deleted_at', '<=', now()->subWeek());
     }
 }

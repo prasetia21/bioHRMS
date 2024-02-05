@@ -20,6 +20,9 @@
             -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
             -webkit-mask-size: 944px 604px;
             mix-blend-mode: multiply;
+            position: absolute;
+            right: 20px;
+            z-index: 999;
         }
 
         .is-denied {

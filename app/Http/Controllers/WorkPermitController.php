@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departement;
 use App\Models\Employee;
 use App\Models\Presence;
 use App\Models\ReqWorkPermit;
@@ -11,7 +10,6 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -20,29 +18,20 @@ class WorkPermitController extends Controller
 {
     public function index(Request $request)
     {
-
-
         $hariini = date('Y-m-d');
         $employee_id = Auth::guard('employee')->user()->id;
 
         $employee = Employee::with('position')->with('departement')->where('id', $employee_id)->first();
 
-
         $posisi = $employee->position->name;
         $departement_id = $employee->departement_id;
-
 
         return view('frontend.work_permit.request', compact('employee'));
     }
 
-
-
-
     function store(Request $request)
     {
         $employee_id = Auth::guard('employee')->user()->id;
-
-
         $attachment = '';
         $departement = $request->kantor_cabang;
         $inputstartdate = $request->start_date;
@@ -135,37 +124,7 @@ class WorkPermitController extends Controller
                 return redirect('/dashboard');
             }
         } else {
-            // $ijin = WorkPermit::insertGetId([
-            //     'start_date' => $startDate,
-            //     'end_date' => $endDate,
-            //     'employee_id' => $employee_id,
-            //     'present_id' => $request->present_id,
-            //     'note' => $request->note,
-            //     'attachment' => $attachment,
-            //     'approval' => false,
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // ]);
-
             $hariini = date('Y-m-d');
-
-
-            // Session::push('ijin', ([
-            //     'employee_id'  => $employee_id,
-            //     'present_id' => $request->present_id,
-            //     'presence_date' => $value->format('Y-m-d'),
-            //     'req_date' => $hariini,
-            //     'time_in' => $time,
-            //     'time_out' => '00:00:00',
-            //     'photo_in'  => $attachment,
-            //     'photo_out'  => $attachment,
-            //     'start_date' => $startDate,
-            //     'end_date' => $endDate,
-            //     'note' => $request->note,
-            //     'attachment' => $attachment,
-            //     'approval_1' => false,
-            //     'approval_2' => false,
-            // ]));
 
             ReqWorkPermit::create([
                 'employee_id'  => $employee_id,

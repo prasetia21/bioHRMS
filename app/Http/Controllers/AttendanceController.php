@@ -15,10 +15,11 @@ class AttendanceController extends Controller
     {
         $hariini = date('Y-m-d');
         $employee_id = Auth::guard('employee')->user()->id;
+        $employee = Employee::with('departement')->find($employee_id);
 
         $cek = Presence::where('presence_date', $hariini)->where('employee_id', $employee_id)->count();
-       
-        return view('frontend.attendance.in', compact('cek'));
+
+        return view('frontend.attendance.in', compact('cek', 'employee'));
     }
 
     public function inStore(Request $request)
@@ -46,8 +47,8 @@ class AttendanceController extends Controller
                 $distancelocation = $this->distance($lat1, $lon1, $lat2, $lon2);
                 $radius = round($distancelocation["meters"]);
             } elseif ($departement == 'Jepara') {
-                $lat1 = -6.652100557453785;
-                $lon1 = 110.70972057237938;
+                $lat1 = -7.824743884482511;
+                $lon1 = 110.3851776668307;
                 $distancelocation = $this->distance($lat1, $lon1, $lat2, $lon2);
                 $radius = round($distancelocation["meters"]);
             } elseif ($departement == 'Cirebon') {

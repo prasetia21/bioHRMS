@@ -181,7 +181,7 @@
                     </a>
                     <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
+                            <a class="nav-link" href="{{ route('rekap.izin') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -196,7 +196,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
+                            <a class="nav-link" href="{{ route('rekap.cuti') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">
@@ -211,7 +211,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard-manage') }}">
+                            <a class="nav-link" href="{{ route('rekap.presensi') }}">
                                 <i class="icon">
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 24 24" fill="currentColor">

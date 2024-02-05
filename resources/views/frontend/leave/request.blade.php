@@ -80,7 +80,7 @@
 @endsection
 
 @section('main')
-    @if ($employee->leave->total_days <= 0)
+    @if ($getJatahCuti->total_days <= 0)
 
         <div class="container h-75" style="margin-top:100px">
             <div class="row h-75 justify-content-center align-items-center">
@@ -112,33 +112,32 @@
             @endif
 
 
-            <form id="frmCuti" method="POST" enctype="multipart/form-data">
+            <form id="frmCuti" action="{{ route('store.cuti') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-row">
-                    <input type="text" class="form-control" value="{{ $employee->id }}" id="employee_id"
+                    <input type="text" class="form-control" value="{{ $getJatahCuti->employee->id }}" id="employee_id"
                         name="employee_id" hidden />
-                    <input type="text" class="form-control" value="{{ $employee->departement->branch }}"
+                    <input type="text" class="form-control" value="{{ $getJatahCuti->id }}" id="leave_id"
+                        name="leave_id" hidden />
+                    <input type="number" class="form-control" name="present_id" id="present_id" value="6" hidden>
+
+                    <input type="text" class="form-control" value="{{ $getJatahCuti->employee->departement->branch }}"
                         id="kantor_cabang" name="kantor_cabang" hidden />
-                    <input type="text" class="form-control" value="{{ $employee->fullname }}" id="nama_pegawai"
+                    <input type="text" class="form-control" value="{{ $getJatahCuti->employee->fullname }}" id="nama_pegawai"
                         name="nama_pegawai" hidden />
-                    <input type="text" class="form-control" name="total_hari" id="total_hari" hidden>
+                    <input type="number" min="1" class="form-control" name="total_hari" id="total_hari" hidden>
+                    <input type="number" id="number_leave_day" name="number_leave_day"
+                        min="{{ $getJatahCuti->total_days }}" max="{{ $getJatahCuti->total_days }}"
+                        value="{{ $getJatahCuti->total_days }}" class="form-control" hidden>
+
+
+
+
 
                 </div>
                 <div class="form-row">
                     <div class="col-md-12">
-                        <label class="form-label" for="number_leave_day">Berapa Hari Pengajuan Cuti:</label>
-                        <div class="input-group mb-5">
-
-                            <input type="number" id="number_leave_day" name="number_leave_day" min="1"
-                                max="{{ $employee->leave->total_days }}" class="form-control"
-                                placeholder="Total Pengajuan Cuti" aria-label="Total Pengajuan Cuti"
-                                aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text ml-1" id="basic-addon2">hari</span>
-                            </div>
-
-                        </div>
 
                         <div class="form-group mb-5">
                             <label class="form-label" for="start_date">Tanggal Mulai Cuti:</label>
@@ -239,10 +238,54 @@
 
             console.log(tgl_aw);
 
-            console.log();
-            console.log();
-            console.log();
+            if (numYears == 0 && numMonths == 0) {
+                if (numDays == 0) {
+                    var hasil = 1
+                } else {
+                    var hasil = numDays + 1
+                }
+            }
+            $('#total_hari').val(hasil)
 
+            if (dateStart > dateEnd) {
+                endDateIn.value = "";
+                alert("pemilihan tanggal tidak diperbolehkan");
+            }
+
+            if (hasil > jmlAmbilCuti) {
+                endDateIn.value = "";
+                alert("jumlah hari tidak boleh melebihi jumlah jatah cuti");
+            }
+        })
+
+        $('#start_date').change(function() {
+
+            const jmlAmbilCuti = document.getElementById('number_leave_day').value;
+            const startDateIn = document.getElementById('start_date');
+            const endDateIn = document.getElementById('end_date');
+
+            const startDateInput = document.getElementById('start_date').value;
+            const endDateInput = document.getElementById('end_date').value;
+
+            const partStartDate = startDateInput.split('-');
+            const partEndDate = endDateInput.split('-');
+
+            const dateStart = partStartDate[2] + '/' + partStartDate[1] + '/' + partStartDate[0];
+            const dateEnd = partEndDate[2] + '/' + partEndDate[1] + '/' + partEndDate[0];
+
+            let tgl_awal = $('#start_date').val();
+            let tgl_akhir = $('#end_date').val();
+            let tgl_aw = moment(dateStart)
+            let tgl_ak = moment(dateEnd)
+            let numYears, numMonths, numDays;
+
+            numYears = tgl_ak.diff(tgl_aw, 'years');
+            tgl_aw = tgl_aw.add(numYears, 'years');
+            numMonths = tgl_ak.diff(tgl_aw, 'months');
+            tgl_aw = tgl_aw.add(numMonths, 'months');
+            numDays = tgl_ak.diff(tgl_aw, 'days');
+
+            console.log(tgl_aw);
 
             if (numYears == 0 && numMonths == 0) {
                 if (numDays == 0) {
@@ -253,9 +296,9 @@
             }
             $('#total_hari').val(hasil)
 
-            if (hasil > jmlAmbilCuti) {
-                endDateIn.value = "";
-                alert("jumlah hari tidak boleh melebihi jumlah jatah cuti");
+            if (dateStart > dateEnd) {
+                startDateIn.value = "";
+                alert("pemilihan tanggal tidak diperbolehkan");
             }
         })
     </script>

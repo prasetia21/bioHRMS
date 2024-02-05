@@ -10,6 +10,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RekapAbsensiController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -72,8 +73,13 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::post('/tolak-ijin/hr', [WorkPermitController::class, 'tolakIjin'])->name('tolak.hr');
     Route::post('/tolak-ijin/manager', [WorkPermitController::class, 'tolakIjin'])->name('tolak.manager');
 
-
     Route::get('/pengajuan-cuti', [LeaveController::class, 'index'])->name('cuti');
+    Route::post('/pengajuan-cuti/store', [LeaveController::class, 'store'])->name('store.cuti');
+
+    Route::post('/acc-cuti/hr', [LeaveController::class, 'approveCuti'])->name('approve-cuti.hr');
+    Route::post('/acc-cuti/manager', [LeaveController::class, 'approveCuti'])->name('approve-cuti.manager');
+    Route::post('/tolak-cuti/hr', [LeaveController::class, 'tolakCuti'])->name('tolak-cuti.hr');
+    Route::post('/tolak-cuti/manager', [LeaveController::class, 'tolakCuti'])->name('tolak-cuti.manager');
 
     Route::get('/signout', [AuthController::class, 'prosesLogout']);
     
@@ -140,3 +146,6 @@ Route::post('/manage/news/remove/{id}', [NewsController::class, 'destroy'])->nam
 Route::get('/news/{param}', [NewsController::class, 'detail'])->name('detail.news');
 Route::post('/manage/news/approve/{id}', [NewsController::class, 'approve'])->name('approve.news');
 
+Route::get('/manage/rekap-izin', [RekapAbsensiController::class, 'izin'])->name('rekap.izin');
+Route::get('/manage/rekap-cuti', [RekapAbsensiController::class, 'cuti'])->name('rekap.cuti');
+Route::get('/manage/rekap-presensi', [RekapAbsensiController::class, 'presensi'])->name('rekap.presensi');

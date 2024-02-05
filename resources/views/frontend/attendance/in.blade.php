@@ -59,6 +59,8 @@ Absensi - BIO HRMS
 
     <div class="row mt-2">
         <div class="col">
+            <input type="number" class="form-control" name="lat_kantor" id="lat_kantor" value="{{ $employee->departement->latitude }}" hidden>
+            <input type="number" class="form-control" name="lon_kantor" id="lon_kantor" value="{{ $employee->departement->longitude }}" hidden>
             <div id="map"></div>
         </div>
     </div>
@@ -107,6 +109,8 @@ Absensi - BIO HRMS
         Webcam.attach('#webcam-picture');
 
         let lokasi = document.getElementById('lokasi');
+        let lat_kantor = document.getElementById('lat_kantor').value;
+        let lon_kantor = document.getElementById('lon_kantor').value;
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -116,7 +120,7 @@ Absensi - BIO HRMS
 
         function showPosition(position) {
             let config = {
-                minZoom: 17,
+                minZoom: 5, // 17
                 maxZoom: 18,
             };
 
@@ -136,7 +140,7 @@ Absensi - BIO HRMS
             const marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
                 .bindPopup('<b>Ini adalah lokasi absensimu</b>').openPopup();
 
-            const circle = L.circle([position.coords.latitude, position.coords.longitude], {
+            const circle = L.circle([lat_kantor, lon_kantor], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,

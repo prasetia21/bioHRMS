@@ -11,22 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leave_requests', function (Blueprint $table) {
+        Schema::create('leaves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id');
-            $table->unsignedBigInteger('leave_id');
-            $table->integer('number_leave_day');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->unsignedBigInteger('present_id')->nullable();
+            $table->date('req_date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->text('note')->nullable();
             $table->string('pic')->nullable();
             $table->string('attachment')->nullable();
-            $table->boolean('approval')->default(false);
+            $table->boolean('approval_1')->default(false);
+            $table->boolean('approval_2')->default(false);
+            $table->string('status')->nullable();
             $table->foreign('employee_id')
                 ->references('id')->on('employees')
                 ->onDelete('cascade');
-            $table->foreign('leave_id')
-                ->references('id')->on('leaves')
+            $table->foreign('present_id')
+                ->references('id')->on('presents')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -37,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leave_requests');
+        Schema::dropIfExists('leaves');
     }
 };
