@@ -18,7 +18,7 @@ class EmployeeController extends Controller
 {
     function index()
     {
-        $data = Employee::with('departement')->with('position')->with('level')->get();
+        $data = Employee::with('departement')->with('position')->with('level')->with('leave')->get();
 
         // $date = $data[0]['contact_date'];
         // $arr = explode(' to ', $date);
@@ -52,7 +52,7 @@ class EmployeeController extends Controller
     {
         $photo = '';
         $inputdate = $request->birth_date;
-        $inputstartdate = $request->birth_date;
+        $inputstartdate = $request->start_work_date;
         $format = 'd-m-Y';
         $formatdate = 'Y-m-d';
         $date = Carbon::parse($inputdate)->format($format);
@@ -60,6 +60,31 @@ class EmployeeController extends Controller
 
         $birthDate = Carbon::parse($inputdate)->format($formatdate);
         $workDate = Carbon::parse($inputstartdate)->format($formatdate);
+
+
+        
+
+
+        $start = Carbon::parse($workDate);
+        $now = Carbon::now();
+
+        $date_diff = $now->diffInDays($start);
+
+        $month_diff = $now->diffInMonths($start);
+
+        $year_diff = $now->diffInYears($start);
+        
+        $prevBulan = $start->format('m');
+
+        if ($year_diff >= 2) {
+            $jatah = 12;
+        } elseif ($year_diff == 1) {
+            $jatah = (12 - $prevBulan) + 1;
+        } else {
+            $jatah = 0;
+        }
+
+        // dd($year_diff);
 
         $request->validate([
             'phone' => 'required|min:4',
@@ -121,7 +146,7 @@ class EmployeeController extends Controller
 
         GetLeave::create([
             'employee_id' => $pegawai,
-            'total_days' => 12,
+            'total_days' => $jatah,
         ]);
 
         Session::flash('success', 'Data berhasil ditambahkan.');

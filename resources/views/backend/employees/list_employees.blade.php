@@ -68,6 +68,7 @@
                                                 <th>Umur</th>
                                                 <th>Mulai Bekerja</th>
                                                 <th>Masa Kerja</th>
+                                                <th>Jatah Cuti</th>
                                                 <th>Status</th>
                                                 <th style="min-width: 100px">Aksi</th>
                                             </tr>
@@ -102,23 +103,13 @@
                                                     <td>{{ $age . ' tahun' }}</td>
                                                     <td>{{ $dateWork }}</td>
                                                     @php
-                                                        $date = $item['contact_date'];
-
-                                                        $arr = explode(' to ', $date);
-
-                                                        $timestamp1 = $arr['0'];
-                                                        $timestamp2 = $arr['1'];
-
+                                                        $timestamp1 = $dateWork;
+                                                        $timestamp2 =  \Carbon\Carbon::now();
                                                         $formatted_dt1 = \Carbon\Carbon::parse($timestamp1);
-
                                                         $formatted_dt2 = \Carbon\Carbon::parse($timestamp2);
-
                                                         $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
-
                                                         $month_diff = $formatted_dt1->diffInMonths($formatted_dt2);
-
                                                         $year_diff = $formatted_dt1->diffInYears($formatted_dt2);
-
                                                     @endphp
 
                                                     <td>
@@ -132,6 +123,7 @@
                                                             @endif
                                                         </span>
                                                     </td>
+                                                    <td><span class="badge bg-primary">{{ $item->leave ? $item->leave->total_days  : 0 }}</span></td>
                                                     <td><span class="badge bg-primary">{{ $item->status }}</span></td>
                                                     <td>
                                                         <div class="flex align-items-center list-user-action">

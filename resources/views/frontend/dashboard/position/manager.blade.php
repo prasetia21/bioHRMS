@@ -324,6 +324,43 @@
     </div>
 
     <br>
+    <div class="mt-2" id="haripresensi">
+        <h3>Pengawai Ijin / Terlambat / Tidak Masuk, {{ $day }} {{ $namemonth[$numbermonth] }}
+            {{ $year }}</h3>
+        <div class="row">
+            <div class="col-md-12">
+
+                <ul class="listview image-listview">
+                    @foreach ($allAbsensi as $histories)
+                        <li>
+                            <div class="item">
+                                <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}"
+                                    alt="image" class="image">
+                                <div class="in">
+                                    <div>{{ $histories->employee->fullname }}</div>
+                                    <div>{{ $histories->employee->position->name }}</div>
+                                    @if ($histories->present->name == 'Terlambat')
+                                        <span class="badge badge-danger">{{ $histories->present->name }}</span>
+                                    @elseif ($histories->present->name == 'Sakit')
+                                        <span class="badge badge-warning">{{ $histories->present->name }}</span>
+                                    @elseif ($histories->present->name == 'Ijin')
+                                        <span class="badge badge-dark">{{ $histories->present->name }}</span>
+                                    @else
+                                        <span class="badge badge-success">{{ $histories->present->name }}</span>
+                                    @endif
+
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    </br>
+    
     <div id="laporan-pegawai">
         <h3>Form Laporan</h3>
         <div class="row">
@@ -379,41 +416,7 @@
         </div>
     </div>
 
-    <div class="mt-2" id="haripresensi">
-        <h3>Pengawai Ijin / Terlambat / Tidak Masuk, {{ $day }} {{ $namemonth[$numbermonth] }}
-            {{ $year }}</h3>
-        <div class="row">
-            <div class="col-md-12">
-               
-                <ul class="listview image-listview">
-                    @foreach ($allAbsensi as $histories)
-                   
-                        <li>
-                            <div class="item">
-                                <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}" alt="image" class="image">
-                                <div class="in">
-                                    <div>{{ $histories->employee->fullname }}</div>
-                                    <div>{{ $histories->employee->position->name }}</div>
-                                    @if ($histories->present->name == 'Terlambat')
-                                        <span class="badge badge-danger">{{ $histories->present->name }}</span>
-                                    @elseif ($histories->present->name == 'Sakit')
-                                        <span class="badge badge-warning">{{ $histories->present->name }}</span>
-                                    @elseif ($histories->present->name == 'Ijin')
-                                        <span class="badge badge-dark">{{ $histories->present->name }}</span>
-                                    @else
-                                        <span class="badge badge-success">{{ $histories->present->name }}</span>
-                                    @endif
-                                    
-                                </div>
-                            </div>
-                        </li>
-                    @endforeach
 
-                </ul>
-            </div>
-
-        </div>
-    </div>
 
 
     <div class="presencetab mt-2">
@@ -435,11 +438,11 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel">
                 <ul class="listview image-listview">
                     @foreach ($history as $histories)
-                       
                         <li>
                             <div class="item">
                                 <div class="icon-box bg-primary">
-                                    <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}" alt="" class="imaged w64">
+                                    <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}"
+                                        alt="" class="imaged w64">
                                 </div>
                                 <div class="in">
                                     <div>{{ date('d-m-Y', strtotime($histories->presence_date)) }}</div>

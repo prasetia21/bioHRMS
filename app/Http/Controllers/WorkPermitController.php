@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Storage;
 
 class WorkPermitController extends Controller
 {
@@ -32,7 +32,9 @@ class WorkPermitController extends Controller
     function store(Request $request)
     {
         $employee_id = Auth::guard('employee')->user()->id;
-        $attachment = '';
+        $employee = Employee::find($employee_id);
+
+
         $departement = $request->kantor_cabang;
         $inputstartdate = $request->start_date;
         $inputenddate = $request->end_date;
@@ -48,6 +50,8 @@ class WorkPermitController extends Controller
         $jmlDate = date_diff($date1, $date2);
 
         $jumlah_hari = $jmlDate->format("%d%") + 1;
+        $hariini = date('Y-m-d');
+
 
         if ($jumlah_hari >= 8) {
             Session::flash('danger', 'Jumlah hari ijin maksimal 7 Hari, Harap Hubungi HR untuk info lebih lanjut');
@@ -69,82 +73,227 @@ class WorkPermitController extends Controller
             'note.required' => 'Keterangan Ijin Wajib Di isi',
         ]);
 
-        if ($request->hasFile('attachment')) {
+        if ($request->upload_option === 'file') {
+            // Proses upload file
 
-            $request->validate(['attachment' => 'mimes:jpeg,jpg,png,gif|image|file|max:2048']);
+            // if ($request->hasFile('file_input')) {
 
-            $attachment_file = $request->file('attachment');
-            $foto_ekstensi = $attachment_file->extension();
-            $nama_file = date('ymdhis') . "." . $foto_ekstensi;
-            $attachment_file->move(public_path('picture/ijin'), $nama_file);
-            $attachment = $nama_file;
-        } else {
-            $attachment = "null";
-        }
+            //     $filenameWithExt = $request->file('file_input')->getClientOriginalName();
 
-        if ($request->present_id == 2) {
-            WorkPermit::create([
-                'start_date' => $startDate,
-                'end_date' => $endDate,
-                'employee_id' => $employee_id,
-                'present_id' => $request->present_id,
-                'note' => $request->note,
-                'attachment' => $attachment,
-                'approval_1' => true,
-                'approval_2' => true,
-            ]);
+            //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 
-            if ($jumlah_hari == 1) {
-                Presence::create([
-                    'employee_id'  => $employee_id,
-                    'present_id' => $request->present_id,
-                    'presence_date' => $startDate,
-                    'time_in' => $time,
-                    'time_out' => '00:00:00',
-                    'photo_in'  => $attachment,
-                    'photo_out'  => $attachment,
-                ]);
+            //     $extension = $request->file('file_input')->getClientOriginalExtension();
 
-                Session::flash('success', 'Pengajuan Berhasil');
-                return redirect('/dashboard');
-            } else {
+            //     $fileName = uniqid() . $fullname . '.' . $extension;
 
-                foreach ($dateRange as $date => $value) {
-                    Presence::create([
+            //     $path = $request->file('file_input')->storeAs('public/uploads/ijin/', $fileName);
+            // } else {
+            //     $fileName = 'null';
+            // }
+
+            $file = $request->file('file_input');
+            $fileName = $file->getClientOriginalName();
+            $extension = $request->file('file_input')->getClientOriginalExtension();
+
+            $fileName = uniqid() . '-' . $employee->fullname . '-' . date('d-m-y-H-i-s') . '.' .$extension;
+
+            $file->storeAs('public/uploads/ijin/', $fileName);
+
+
+            if ($request->present_id == 2) {
+
+                if ($jumlah_hari < 2) {
+                    WorkPermit::create([
+                        'start_date' => $startDate,
+                        'end_date' => $endDate,
+                        'req_date' => $hariini,
+                        'employee_id' => $employee_id,
+                        'present_id' => $request->present_id,
+                        'note' => $request->note,
+                        'attachment' => $fileName,
+                        'approval_1' => true,
+                        'approval_2' => true,
+                    ]);
+
+                    if ($jumlah_hari == 1) {
+                        Presence::create([
+                            'employee_id'  => $employee_id,
+                            'present_id' => $request->present_id,
+                            'presence_date' => $startDate,
+                            'time_in' => $time,
+                            'time_out' => '00:00:00',
+                            'photo_in'  => $fileName,
+                            'photo_out'  => $fileName,
+                        ]);
+
+                        Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Persetujuan Atasan Anda');
+                        return redirect('/dashboard');
+                    } else {
+
+                        foreach ($dateRange as $date => $value) {
+                            Presence::create([
+                                'employee_id'  => $employee_id,
+                                'present_id' => $request->present_id,
+                                'presence_date' => $value->format('Y-m-d'),
+                                'time_in' => $time,
+                                'time_out' => '00:00:00',
+                                'photo_in'  => $fileName,
+                                'photo_out'  => $fileName,
+                            ]);
+                        }
+                        Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Persetujuan Atasan Anda');
+                        return redirect('/dashboard');
+                    }
+                } else {
+                    ReqWorkPermit::create([
                         'employee_id'  => $employee_id,
                         'present_id' => $request->present_id,
-                        'presence_date' => $value->format('Y-m-d'),
+                        'req_date' => $hariini,
                         'time_in' => $time,
                         'time_out' => '00:00:00',
-                        'photo_in'  => $attachment,
-                        'photo_out'  => $attachment,
+                        'photo_in'  => $fileName,
+                        'photo_out'  => $fileName,
+                        'start_date' => $startDate,
+                        'end_date' => $endDate,
+                        'note' => $request->note,
+                        'attachment' => $fileName,
+                        'departement' => $departement,
+                        'approval_1' => false,
+                        'approval_2' => false,
                     ]);
+
+                    Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
+                    return redirect('/dashboard');
                 }
-                Session::flash('success', 'Pengajuan Berhasil');
+            } else {
+
+
+                ReqWorkPermit::create([
+                    'employee_id'  => $employee_id,
+                    'present_id' => $request->present_id,
+                    'req_date' => $hariini,
+                    'time_in' => $time,
+                    'time_out' => '00:00:00',
+                    'photo_in'  => $fileName,
+                    'photo_out'  => $fileName,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'note' => $request->note,
+                    'attachment' => $fileName,
+                    'departement' => $departement,
+                    'approval_1' => false,
+                    'approval_2' => false,
+                ]);
+
+                Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
                 return redirect('/dashboard');
             }
         } else {
-            $hariini = date('Y-m-d');
+            // Proses capture webcam
+            $imageData = $request->image_data;
 
-            ReqWorkPermit::create([
-                'employee_id'  => $employee_id,
-                'present_id' => $request->present_id,
-                'req_date' => $hariini,
-                'time_in' => $time,
-                'time_out' => '00:00:00',
-                'photo_in'  => $attachment,
-                'photo_out'  => $attachment,
-                'start_date' => $startDate,
-                'end_date' => $endDate,
-                'note' => $request->note,
-                'attachment' => $attachment,
-                'departement' => $departement,
-                'approval_1' => false,
-                'approval_2' => false,
-            ]);
+            $folderPath = 'public/uploads/ijin/';
+            $formatName = uniqid() . '-' . $employee->fullname . '-' . date('d-m-y-H-i-s');
+            $image_part = explode(';base64', $imageData);
+            $image_base64 = base64_decode($image_part[1]);
+            $fileName = $formatName . ".png";
 
-            Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
-            return redirect('/dashboard');
+            Storage::put($fileName, $image_base64);
+
+            if ($request->present_id == 2) {
+
+                if ($jumlah_hari < 2) {
+                    WorkPermit::create([
+                        'start_date' => $startDate,
+                        'end_date' => $endDate,
+                        'req_date' => $hariini,
+                        'employee_id' => $employee_id,
+                        'present_id' => $request->present_id,
+                        'note' => $request->note,
+                        'attachment' => $fileName,
+                        'approval_1' => true,
+                        'approval_2' => true,
+                    ]);
+
+                    if ($jumlah_hari == 1) {
+                        Presence::create([
+                            'employee_id'  => $employee_id,
+                            'present_id' => $request->present_id,
+                            'presence_date' => $startDate,
+                            'time_in' => $time,
+                            'time_out' => '00:00:00',
+                            'photo_in'  => $fileName,
+                            'photo_out'  => $fileName,
+                        ]);
+
+
+                        Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Persetujuan Atasan Anda');
+                        return redirect('/dashboard');
+                    } else {
+
+                        foreach ($dateRange as $date => $value) {
+                            Presence::create([
+                                'employee_id'  => $employee_id,
+                                'present_id' => $request->present_id,
+                                'presence_date' => $value->format('Y-m-d'),
+                                'time_in' => $time,
+                                'time_out' => '00:00:00',
+                                'photo_in'  => $fileName,
+                                'photo_out'  => $fileName,
+                            ]);
+                        }
+
+
+                        Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Persetujuan Atasan Anda');
+                        return redirect('/dashboard');
+                    }
+                } else {
+                    ReqWorkPermit::create([
+                        'employee_id'  => $employee_id,
+                        'present_id' => $request->present_id,
+                        'req_date' => $hariini,
+                        'time_in' => $time,
+                        'time_out' => '00:00:00',
+                        'photo_in'  => $fileName,
+                        'photo_out'  => $fileName,
+                        'start_date' => $startDate,
+                        'end_date' => $endDate,
+                        'note' => $request->note,
+                        'attachment' => $fileName,
+                        'departement' => $departement,
+                        'approval_1' => false,
+                        'approval_2' => false,
+                    ]);
+
+
+                    Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
+                    return redirect('/dashboard');
+                }
+            } else {
+
+
+                ReqWorkPermit::create([
+                    'employee_id'  => $employee_id,
+                    'present_id' => $request->present_id,
+                    'req_date' => $hariini,
+                    'time_in' => $time,
+                    'time_out' => '00:00:00',
+                    'photo_in'  => $fileName,
+                    'photo_out'  => $fileName,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'note' => $request->note,
+                    'attachment' => $fileName,
+                    'departement' => $departement,
+                    'approval_1' => false,
+                    'approval_2' => false,
+                ]);
+
+
+
+                Session::flash('success', 'Pengajuan Berhasil, Harap Menunggu Approval Atasan Anda');
+                return redirect('/dashboard');
+            }
         }
     }
 
@@ -179,7 +328,7 @@ class WorkPermitController extends Controller
                     $cekIjin->status_1 != null &&
                     ($cekIjin->approval_2 == 0 && $cekIjin->status_2 != null)
                 ) {
-                   
+
                     ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
                 }
                 Session::flash('success', 'Berhasil Ditolak');
@@ -187,6 +336,10 @@ class WorkPermitController extends Controller
             } elseif ($namaReq == "tolak.manager") {
                 ReqWorkPermit::where('employee_id', $idPegawai)
                     ->update([
+                        'approval_1' => false,
+                        'reject_1' => $request->reject_2,
+                        'status_1' => "TIDAK ACC HR",
+
                         'approval_2' => $request->approval_2,
                         'reject_2' => $request->reject_2,
                         'status_2' => $request->status_2,
@@ -197,7 +350,7 @@ class WorkPermitController extends Controller
                     $cekIjin->status_1 != null &&
                     ($cekIjin->approval_2 == 0 && $cekIjin->status_2 != null)
                 ) {
-                   
+
                     ReqWorkPermit::where('employee_id', $cekIjin->employee_id)->delete();
                 }
                 Session::flash('success', 'Berhasil Ditolak');
@@ -283,6 +436,9 @@ class WorkPermitController extends Controller
 
                 ReqWorkPermit::where('employee_id', $idPegawai)
                     ->update([
+                        'approval_1' => true,
+                        'status_1' => "ACC HR",
+
                         'approval_2' => $request->approval_2,
                         'status_2' => $request->status_2,
                     ]);

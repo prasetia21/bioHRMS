@@ -98,6 +98,19 @@
                             </div>
                         </div>
 
+                        @php
+                            $timestamp1 = $item->start_date;
+                            $timestamp2 = $item->end_date;
+                            $formatted_dt1 = \Carbon\Carbon::parse($timestamp1);
+                            $formatted_dt2 = \Carbon\Carbon::parse($timestamp2);
+                            $date_diff = $formatted_dt1->diffInDays($formatted_dt2);
+
+                            $format = 'd-m-Y';
+                            $startdate = \Carbon\Carbon::parse($timestamp1)->format($format);
+                            $enddate = \Carbon\Carbon::parse($timestamp2)->format($format);
+
+                        @endphp
+
                         <div class="card-body">
                             <ul class="list-inline m-0 p-0">
 
@@ -107,12 +120,20 @@
                                             alt="story-img" style="width: 80px; height:80px"
                                             class="rounded-pill avatar-40"></div>
                                     <div class="ml-3 ms-3 flex-grow-1">
-                                        <h3>{{ $item->employee->fullname }} / {{ $item->employee->position->name }}</h3>
-                                        <p class="mb-0">Ingin Mengajukan <strong><span
+                                        <h3>{{ $item->employee->fullname }} / {{ $item->employee->position->name }} - {{ $item->employee->departement->name }} </h3>
+                                        <p class="mb-0">Mengajukan <strong><span
                                                     class="badge badge-pill badge-primary">Ijin
-                                                    {{ $item->present->name }}</span></strong> kepada HRD dan
-                                            Manager
+                                                    {{ $item->present->name }}</span></strong> selama
+                                            {{ $date_diff + 1 }} hari, dari tanggal
+                                            {{ $startdate }} s/d {{ $enddate }}
                                         </p>
+                                        @if ($item->attachment == "null")
+                                        <p>File Attachment tidak dicantumkan</p>
+                                        @else
+                                        <p>Berikut Bukti File Attachment untuk mendukung ijin: <a href="{{ asset('picture/ijin/' . $item->attachment) }}">File Saya</a></p>
+                                        @endif
+                                        
+                                        
                                     </div>
                                     <form onsubmit="return confirmApproveIjin(event)"
                                         action="{{ route('approve.hr') }}" method="post" class="d-inline">
@@ -150,7 +171,7 @@
                                                 </span>
                                             </button>
                                         @else
-                                            <button type="submit" class="btn btn-sm btn-icon btn-danger"
+                                            <button hidden type="submit" class="btn btn-sm btn-icon btn-danger"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Approve"
                                                 href="#">
                                                 <span class="btn-inner">
@@ -528,13 +549,13 @@
             {{ $year }}</h3>
         <div class="row">
             <div class="col-md-12">
-               
+
                 <ul class="listview image-listview">
                     @foreach ($allAbsensi as $histories)
-                    
                         <li>
                             <div class="item">
-                                <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}" alt="image" class="image">
+                                <img src="{{ asset('/picture/accounts/' . $histories->employee->photo) }}"
+                                    alt="image" class="image">
                                 <div class="in">
                                     <div>{{ $histories->employee->fullname }}</div>
                                     <div>{{ $histories->employee->position->name }}</div>
@@ -547,7 +568,7 @@
                                     @else
                                         <span class="badge badge-success">{{ $histories->present->name }}</span>
                                     @endif
-                                    
+
                                 </div>
                             </div>
                         </li>
@@ -634,7 +655,8 @@
                         @endphp
                         <li>
                             <div class="item">
-                                <img src="{{ asset('/picture/accounts/' . $telat->employee->photo) }}" alt="image" class="image">
+                                <img src="{{ asset('/picture/accounts/' . $telat->employee->photo) }}" alt="image"
+                                    class="image">
                                 <div class="in">
                                     <div>{{ $telat->employee->fullname }}</div>
                                     <div><span

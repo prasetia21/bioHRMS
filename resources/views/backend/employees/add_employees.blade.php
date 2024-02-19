@@ -221,12 +221,10 @@
     <script>
         flatpickr('#birth_date', {
             dateFormat: "d-m-Y",
-            "minDate": new Date().fp_incr(1)
         });
 
         flatpickr('#start_work_date', {
             dateFormat: "d-m-Y",
-            "minDate": new Date().fp_incr(1)
         });
 
         flatpickr("#contact_date", {

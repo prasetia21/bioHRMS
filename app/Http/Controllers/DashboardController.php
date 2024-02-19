@@ -281,7 +281,6 @@ class DashboardController extends Controller
             $ijin = ReqWorkPermit::with('employee.position')
                 ->with('present')
                 ->where('req_date', $hariini)
-                ->where('approval_1', '0')
                 ->orderBy('status_1', 'DESC')
                 ->get();
 
@@ -289,7 +288,6 @@ class DashboardController extends Controller
                 ->with('present')
                 ->with('leave')
                 ->where('req_date', $hariini)
-                ->where('approval_1', '0')
                 ->orderBy('status_1', 'DESC')
                 ->get();
 

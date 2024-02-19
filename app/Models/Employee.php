@@ -93,7 +93,7 @@ class Employee extends Authenticatable
 
     public function leave(): HasOne
     {
-        return $this->hasOne(Leave::class);
+        return $this->hasOne(GetLeave::class);
     }
 
     public function leave_request(): HasOne

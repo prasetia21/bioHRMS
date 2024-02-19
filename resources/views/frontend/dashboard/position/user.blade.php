@@ -86,39 +86,39 @@
                                         $cekReqIjin->approval_1 == 0 &&
                                             $cekReqIjin->status_1 == null &&
                                             ($cekReqIjin->approval_2 == 0 && $cekReqIjin->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
-                                        </p>
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
+                                        </p> --}}
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
                                     @elseif(
                                         $cekReqIjin->approval_1 == 1 &&
                                             $cekReqIjin->status_1 != null &&
                                             ($cekReqIjin->approval_2 == 0 && $cekReqIjin->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p>
+                                        {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p> --}}
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
                                     @elseif(
                                         $cekReqIjin->approval_1 == 0 &&
                                             $cekReqIjin->status_1 == null &&
                                             ($cekReqIjin->approval_2 == 1 && $cekReqIjin->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
-                                        </p>
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
+                                        </p> --}}
                                         <p class="mb-1"><span class="badge badge-success">Disetujui Manager</span></p>
                                     @elseif(
                                         $cekReqIjin->approval_1 == 1 &&
                                             $cekReqIjin->status_1 != null &&
                                             ($cekReqIjin->approval_2 == 1 && $cekReqIjin->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p>
+                                        {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p> --}}
                                         <p class="mb-1"><span class="badge badge-success">Disetujui Manager</span></p>
                                     @elseif(
                                         $cekReqIjin->approval_1 == 0 &&
                                             $cekReqIjin->status_1 != null &&
                                             ($cekReqIjin->approval_2 == 0 && $cekReqIjin->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                        {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqIjin->status_1 }}, Alasannya:
                                                 {{ $cekReqIjin->reject_1 }},</span>
                                             <strong>Harap Menghubungi Divisi HR untuk Informasi lebih lanjut</strong>
-                                        </p>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
@@ -126,8 +126,8 @@
                                         $cekReqIjin->approval_1 == 0 &&
                                             $cekReqIjin->status_1 == null &&
                                             ($cekReqIjin->approval_2 == 0 && $cekReqIjin->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
-                                        </p>
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqIjin->status_2 }}, Alasannya:
@@ -139,12 +139,12 @@
                                         $cekReqIjin->approval_1 == 0 &&
                                             $cekReqIjin->status_1 != null &&
                                             ($cekReqIjin->approval_2 == 0 && $cekReqIjin->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                        {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqIjin->status_1 }}, Alasannya:
                                                 {{ $cekReqIjin->reject_1 }},</span>
                                             <strong>Harap Menghubungi Divisi HR untuk
                                                 Informasi lebih lanjut</strong>
-                                        </p>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqIjin->status_2 }}, Alasannya:
@@ -192,42 +192,42 @@
                                         $cekReqCuti->approval_1 == 0 &&
                                             $cekReqCuti->status_1 == null &&
                                             ($cekReqCuti->approval_2 == 0 && $cekReqCuti->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
-                                        </p>
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan HR</span>
+                                        </p> --}}
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
                                     @elseif(
                                         $cekReqCuti->approval_1 == 1 &&
                                             $cekReqCuti->status_1 != null &&
                                             ($cekReqCuti->approval_2 == 0 && $cekReqCuti->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p>
+                                        {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p> --}}
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
                                     @elseif(
                                         $cekReqCuti->approval_1 == 0 &&
                                             $cekReqCuti->status_1 == null &&
                                             ($cekReqCuti->approval_2 == 1 && $cekReqCuti->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 HR</span>
-                                        </p>
+                                        </p> --}}
                                         <p class="mb-1"><span class="badge badge-success">Disetujui Manager</span>
                                         </p>
                                     @elseif(
                                         $cekReqCuti->approval_1 == 1 &&
                                             $cekReqCuti->status_1 != null &&
                                             ($cekReqCuti->approval_2 == 1 && $cekReqCuti->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p>
+                                        {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span></p> --}}
                                         <p class="mb-1"><span class="badge badge-success">Disetujui Manager</span>
                                         </p>
                                     @elseif(
                                         $cekReqCuti->approval_1 == 0 &&
                                             $cekReqCuti->status_1 != null &&
                                             ($cekReqCuti->approval_2 == 0 && $cekReqCuti->status_2 == null))
-                                        <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                        {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqCuti->status_1 }}, Alasannya:
                                                 {{ $cekReqCuti->reject_1 }},</span>
                                             <strong>Harap Menghubungi Divisi HR untuk Informasi lebih lanjut</strong>
-                                        </p>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 Manager</span></p>
@@ -235,9 +235,9 @@
                                         $cekReqCuti->approval_1 == 0 &&
                                             $cekReqCuti->status_1 == null &&
                                             ($cekReqCuti->approval_2 == 0 && $cekReqCuti->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                        {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                 HR</span>
-                                        </p>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqCuti->status_2 }}, Alasannya:
@@ -249,12 +249,12 @@
                                         $cekReqCuti->approval_1 == 0 &&
                                             $cekReqCuti->status_1 != null &&
                                             ($cekReqCuti->approval_2 == 0 && $cekReqCuti->status_2 != null))
-                                        <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                        {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqCuti->status_1 }}, Alasannya:
                                                 {{ $cekReqCuti->reject_1 }},</span>
                                             <strong>Harap Menghubungi Divisi HR untuk
                                                 Informasi lebih lanjut</strong>
-                                        </p>
+                                        </p> --}}
 
                                         <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                 {{ $cekReqCuti->status_2 }}, Alasannya:
@@ -305,46 +305,46 @@
                                             $cekAccIjin->approval_1 == 0 &&
                                                 $cekAccIjin->status_1 == null &&
                                                 ($cekAccIjin->approval_2 == 0 && $cekAccIjin->status_2 == null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> 
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                     Manager</span></p>
                                         @elseif(
                                             $cekAccIjin->approval_1 == 1 &&
                                                 $cekAccIjin->status_1 != null &&
                                                 ($cekAccIjin->approval_2 == 0 && $cekAccIjin->status_2 == null))
-                                            <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                     Manager</span></p>
                                         @elseif(
                                             $cekAccIjin->approval_1 == 0 &&
                                                 $cekAccIjin->status_1 == null &&
                                                 ($cekAccIjin->approval_2 == 1 && $cekAccIjin->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> 
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-success">Disetujui
                                                     Manager</span></p>
                                         @elseif(
                                             $cekAccIjin->approval_1 == 1 &&
                                                 $cekAccIjin->status_1 != null &&
                                                 ($cekAccIjin->approval_2 == 1 && $cekAccIjin->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-success">Disetujui
                                                     Manager</span></p>
                                         @elseif(
                                             $cekAccIjin->approval_1 == 0 &&
                                                 $cekAccIjin->status_1 != null &&
                                                 ($cekAccIjin->approval_2 == 0 && $cekAccIjin->status_2 == null))
-                                            <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                            {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                     {{ $cekAccIjin->status_1 }}, Alasannya:
                                                     {{ $cekAccIjin->reject_1 }},</span>
                                                 <strong>Harap Menghubungi Divisi HR untuk Informasi lebih
                                                     lanjut</strong>
-                                            </p>
+                                            </p> --}}
 
                                             <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                     Manager</span></p>
@@ -352,9 +352,9 @@
                                             $cekAccIjin->approval_1 == 0 &&
                                                 $cekAccIjin->status_1 == null &&
                                                 ($cekAccIjin->approval_2 == 0 && $cekAccIjin->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> 
+                                            </p> --}}
 
                                             <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                     {{ $cekAccIjin->status_2 }}, Alasannya:
@@ -366,12 +366,12 @@
                                             $cekAccIjin->approval_1 == 0 &&
                                                 $cekAccIjin->status_1 != null &&
                                                 ($cekAccIjin->approval_2 == 0 && $cekAccIjin->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
+                                            {{-- <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                     {{ $cekAccIjin->status_1 }}, Alasannya:
                                                     {{ $cekAccIjin->reject_1 }},</span>
                                                 <strong>Harap Menghubungi Divisi HR untuk
                                                     Informasi lebih lanjut</strong>
-                                            </p>
+                                            </p> --}}
 
                                             <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
                                                     {{ $cekAccIjin->status_2 }}, Alasannya:
@@ -418,8 +418,8 @@
                                             $cekAccCuti->approval_1 == 0 &&
                                                 $cekAccCuti->status_1 == null &&
                                                 ($cekAccCuti->approval_2 == 0 && $cekAccCuti->status_2 == null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> --}}
                                             </p>
                                             <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                     Manager</span></p>
@@ -427,16 +427,16 @@
                                             $cekAccCuti->approval_1 == 1 &&
                                                 $cekAccCuti->status_1 != null &&
                                                 ($cekAccCuti->approval_2 == 0 && $cekAccCuti->status_2 == null))
-                                            <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
                                                     Manager</span></p>
                                         @elseif(
                                             $cekAccCuti->approval_1 == 0 &&
                                                 $cekAccCuti->status_1 == null &&
                                                 ($cekAccCuti->approval_2 == 1 && $cekAccCuti->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> --}}
                                             </p>
                                             <p class="mb-1"><span class="badge badge-success">Disetujui
                                                     Manager</span></p>
@@ -444,8 +444,8 @@
                                             $cekAccCuti->approval_1 == 1 &&
                                                 $cekAccCuti->status_1 != null &&
                                                 ($cekAccCuti->approval_2 == 1 && $cekAccCuti->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
-                                            </p>
+                                            {{-- <p class="mb-1"><span class="badge badge-success">Disetujui HR</span>
+                                            </p> --}}
                                             <p class="mb-1"><span class="badge badge-success">Disetujui
                                                     Manager</span></p>
                                         @elseif(
@@ -465,8 +465,8 @@
                                             $cekAccCuti->approval_1 == 0 &&
                                                 $cekAccCuti->status_1 == null &&
                                                 ($cekAccCuti->approval_2 == 0 && $cekAccCuti->status_2 != null))
-                                            <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
-                                                    HR</span>
+                                            {{-- <p class="mb-1"><span class="badge badge-info">Menunggu Persetujuan
+                                                    HR</span> --}}
                                             </p>
 
                                             <p class="mb-1"><span class="badge badge-danger">Pengajuanmu
