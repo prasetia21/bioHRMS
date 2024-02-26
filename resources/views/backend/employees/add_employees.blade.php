@@ -82,7 +82,7 @@
                                 @endif
 
 
-                                @if (!empty($levels) && $levels->count() > 0)
+                                {{-- @if (!empty($levels) && $levels->count() > 0)
                                     <div class="form-group">
                                         <label for="user_level_id" class="form-label">Level User</label>
                                         <select name="user_level_id" class="selectpicker form-control" data-style="py-0"
@@ -100,7 +100,7 @@
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
                                     </div>
-                                @endif
+                                @endif --}}
 
                             </div>
                         </div>

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
@@ -39,7 +38,7 @@
                 <h4>Fill the form to log in</h4>
             </div>
             <div class="section mt-1 mb-5">
-                @php 
+                @php
                     $message = Session::get('warning');
                 @endphp
 
@@ -52,7 +51,8 @@
                     @csrf
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Nomor HP">
+                            <input type="text" class="form-control" name="phone" id="phone"
+                                placeholder="Nomor HP">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
@@ -61,7 +61,8 @@
 
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" id="password"
+                                placeholder="Password">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
@@ -70,9 +71,9 @@
 
                     <div class="form-links mt-2">
                         <div>
-                            <a href="page-register.html">Register Now</a>
+                            {{-- <a href="{{ route('prosesRegister')}}">Daftar Baru</a> --}}
                         </div>
-                        <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div>
+                        {{-- <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div> --}}
                     </div>
 
                     <div class="form-button-group">

@@ -24,5 +24,6 @@
     <link rel="stylesheet" href="{{ asset('hopeui/css/customizer.min.css') }}">
     <link rel="stylesheet" href="{{ asset('hopeui/css/rtl.min.css') }}">
     <link rel="stylesheet" href="{{ asset('hopeui/vendor/flatpickr/dist/flatpickr.min.css') }}">
+    <script src="https://kit.fontawesome.com/4a6f1bff27.js" crossorigin="anonymous"></script>
 
 </head>

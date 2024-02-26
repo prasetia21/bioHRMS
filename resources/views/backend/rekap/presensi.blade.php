@@ -79,10 +79,13 @@
                             </div>
                         </div>
 
-                    </div>
+                    
+                    
                     @if (!empty($data) && $data->count() > 0)
+                    
                         <div class="card-body px-0">
                             <div class="table-responsive">
+                                <p style="margin-left:20px">Jumlah karyawan : {{ $total_karyawan }}</p>
                                 <table id="user-list-table" class="table table-striped" role="grid"
                                     data-bs-toggle="data-table">
                                     <thead>

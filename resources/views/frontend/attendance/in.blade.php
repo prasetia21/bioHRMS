@@ -66,27 +66,31 @@ Absensi - BIO HRMS
     </div>
 
     <audio id="notif_in">
-        <source src="{{ asset('assets/audio/notification_in.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_Terima_kasih__Selamat_Bekerja_dan_jangan_lupa_berdoa.mp3') }}" type="audio/mpeg">
     </audio>
 
     <audio id="notif_out">
-        <source src="{{ asset('assets/audio/notification_out.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_terima_kasih__hati_hati_di_perjalanan_pulang.mp3') }}" type="audio/mpeg">
     </audio>
 
     <audio id="radius_distance">
-        <source src="{{ asset('assets/audio/radius_distance.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_Maaf_Anda_berada_diluar_radius___jarak_anda_masih_beberapa_meter_dari_kantor.mp3') }}" type="audio/mpeg">
     </audio>
 
     <audio id="departement">
-        <source src="{{ asset('assets/audio/departement.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_maaf_koordinat_unit_kerja_anda_tidak_ditemukan__hubungi_departemen_aiti.mp3') }}" type="audio/mpeg">
     </audio>
 
     <audio id="image">
-        <source src="{{ asset('assets/audio/image.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_foto_selfie_gagal__harap_reload_ulang_halaman_atau_hubungi_departemen_aiti.mp3') }}" type="audio/mpeg">
     </audio>
 
     <audio id="sunday">
-        <source src="{{ asset('assets/audio/sunday.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_Selamat_berakhir_pekan__anda_tidak_perlu_presensi_hari_ini_.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <audio id="error-absen">
+        <source src="{{ asset('assets/audio/voicebotika_jv-ID-SitiNeural_absen_gagal__harap_mencoba_kembali.mp3') }}" type="audio/mpeg">
     </audio>
 @endsection
 
@@ -224,6 +228,8 @@ Absensi - BIO HRMS
                             image.play();
                         } else if (status[2] == 'sunday') {
                             sunday.play();
+                        } else {
+                            error-absen.play();
                         }
                         Swal.fire({
                             title: 'Gagal Absen',

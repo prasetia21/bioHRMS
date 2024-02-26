@@ -35,11 +35,12 @@
     </style>
 @endsection
 
-@include('frontend.layouts.body.header')
-@include('frontend.layouts.body.navigation')
+
 
 @section('main')
     {{-- Content Goes Here --}}
+    @include('frontend.layouts.body.header')
+    @include('frontend.layouts.body.navigation')
     @include('frontend.dashboard.position.hr')
     {{-- End Content Goes Here --}}
 @endsection

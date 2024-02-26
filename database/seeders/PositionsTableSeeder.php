@@ -30,7 +30,16 @@ class PositionsTableSeeder extends Seeder
                 'name' => 'Admin',
             ],
             [
-                'name' => 'Online',
+                'name' => 'CS',
+            ],
+            [
+                'name' => 'Advertiser',
+            ],
+            [
+                'name' => 'Branding',
+            ],
+            [
+                'name' => 'Gudang',
             ],
             [
                 'name' => 'Manager',
@@ -40,9 +49,6 @@ class PositionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'Produksi',
-            ],
-            [
-                'name' => 'User',
             ],
         ]);
     }

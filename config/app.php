@@ -160,7 +160,7 @@ return [
          * Package Service Providers...
          */
         Stevebauman\Location\LocationServiceProvider::class,
-
+        
         /*
          * Application Service Providers...
          */
@@ -169,6 +169,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Ladumor\OneSignal\OneSignalServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -185,6 +186,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Location' => Stevebauman\Location\Facades\Location::class,
+        'OneSignal' => \Ladumor\OneSignal\OneSignal::class,
     ])->toArray(),
 
 ];

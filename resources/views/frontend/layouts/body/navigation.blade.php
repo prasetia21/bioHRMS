@@ -4,7 +4,7 @@
             <div class="list-menu">
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="">
+                        <a href="{{ route('profile') }}">
                             <img src="{{ asset('assets/img/upload/web/profile.svg') }}" alt="avatar" class="imaged w64 rounded">
                         </a>
                     </div>
@@ -12,11 +12,12 @@
                         <span class="text-center">Profil</span>
                     </div>
                 </div>
-                @if (!empty($cekReqCuti) && $cekReqCuti->req_date == $hariini)
+               
+                @if (!empty($cekReqCuti) && $cekReqCuti->req_date == $hariini || empty($getJatahCuti) || $getJatahCuti->total_days <= 0)
                 <div class="item-menu text-center">
                     <div class="menu-icon">
                         <a>
-                            <img src="{{ asset('assets/img/upload/web/calendar-date.svg') }}" alt="avatar" class="imaged w64 rounded opacity-25">
+                            <img src="{{ asset('assets/img/upload/web/calendar-remove.svg') }}" alt="avatar" class="imaged w64 rounded opacity-25">
                         </a>
                     </div>
                     <div class="menu-name">

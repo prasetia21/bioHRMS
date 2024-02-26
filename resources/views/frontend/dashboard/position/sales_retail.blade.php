@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div id="notif-pegawai">
+    <div class="mt-2" id="notif-pegawai">
 
         <div class="col-lg-12">
             <div class="card">
@@ -513,6 +513,41 @@
                 @endif
 
 
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-2" id="status-pegawai">
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h4 class="card-title">Status Kehadiran</h4>
+                    </div>
+                </div>
+
+                <ul class="list-inline m-0 p-0 bg-warning">
+
+                    <li class="d-flex m-2 align-items-center">
+                        <p>Anda Memiliki Surat Teguran di Bulan ini, <a
+                                href="{{ url('/download_steguran/' . $employee->id) }}">
+                                Lihat Detail Surat Teguran Anda <i class="fa fa-eye"></i></a></p>
+                    </li>
+                </ul>
+
+                @foreach ($ketSP as $key => $item)
+                <ul class="list-inline m-0 p-0 bg-danger">
+
+                    <li class="d-flex m-2 align-items-center">
+                        <p>Anda Masih Mempunyai Surat Peringatan {{ $item->level }} , yang Berlaku sampai {{ $item->masa_berlaku }}, <a
+                                href="{{ url('/download_sp/' . $item->employee_id) }}">
+                                Lihat Detail Surat Peringatan Anda <i class="fa fa-eye"></i></a></p>
+                    </li>
+                </ul>
+                @endforeach
 
             </div>
         </div>

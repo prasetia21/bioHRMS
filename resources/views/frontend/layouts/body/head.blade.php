@@ -23,4 +23,13 @@
     <script src="https://kit.fontawesome.com/4a6f1bff27.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/vendor/leaflet/leaflet.js') }}"></script>
     
+<style>
+  .section > div .avatar .image {
+    min-width: 80px;
+    max-width: 80px;
+    width: 80px;
+    height: 80px;
+    border-radius: 400px;
+  }
+</style>
 </head>

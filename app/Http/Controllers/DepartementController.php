@@ -11,6 +11,12 @@ class DepartementController extends Controller
     function index()
     {
         $data = Departement::all();
+        
+        $lok1 = 'Yogyakarta';
+        $Dept = Departement::where('branch', $lok1)->first();
+        dd($Dept->latitude);
+        // $latDeptYog1 = 
+
         return view('backend.departements.list_departements', ['data' => $data]);
     }
 

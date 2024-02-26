@@ -89,7 +89,6 @@ class EmployeeController extends Controller
         $request->validate([
             'phone' => 'required|min:4',
             'fullname' => 'required|min:4',
-            'user_level_id' => 'required',
             'position_id' => 'required',
             'departement_id' => 'required',
         ], [
@@ -97,7 +96,6 @@ class EmployeeController extends Controller
             'phone.min' => 'Bidang Nomor HP minimal harus 10 karakter.',
             'fullname.required' => 'Name Wajib Di isi',
             'fullname.min' => 'Bidang Name minimal harus 4 karakter.',
-            'user_level_id.required' => 'Level Akses User Wajib Di isi',
             'position_id.required' => 'Posisi Wajib Di isi',
             'departement_id.required' => 'Departemen Wajib Di isi',
         ]);
@@ -125,7 +123,6 @@ class EmployeeController extends Controller
         }
 
         $pegawai = Employee::insertGetId([
-            'user_level_id' => $request->user_level_id,
             'position_id' => $request->position_id,
             'departement_id' => $request->departement_id,
             'nip' => $request->nip,
@@ -202,7 +199,6 @@ class EmployeeController extends Controller
         $karyawan = Employee::find($request->id);
 
         $karyawan->nip = $request->nip;
-        $karyawan->user_level_id = $request->user_level_id;
         $karyawan->position_id = $request->position_id;
         $karyawan->departement_id = $request->departement_id;
         $karyawan->fullname = $request->fullname;
@@ -220,13 +216,11 @@ class EmployeeController extends Controller
         return redirect('/manage/employee');
     }
 
-    function register()
-    {
-        $office = Departement::latest()->get();
-        $position = Position::latest()->get();
-        $level = UserLevel::latest()->get();
+    public function prosesRegister (Request $request){
+        $departements = Departement::latest()->get();
+        $positions = Position::latest()->get();
 
-        return view('register.new', compact('office', 'position', 'level'));
+        return view('auth.register_attendant', compact('departements', 'positions'));
     }
 
     function registerStore(Request $request)
@@ -235,7 +229,6 @@ class EmployeeController extends Controller
             'phone' => 'required|min:4',
             'fullname' => 'required|min:4',
             'password' => 'required|min:6',
-            'user_level_id' => 'required',
             'position_id' => 'required',
             'departement_id' => 'required',
         ], [
@@ -245,13 +238,11 @@ class EmployeeController extends Controller
             'fullname.min' => 'Bidang Full Name minimal harus 4 karakter.',
             'password.required' => 'Password Wajib Di isi',
             'password.min' => 'Password minimal harus 6 karakter.',
-            'user_level_id.required' => 'Level Akses User Wajib Di isi',
             'position_id.required' => 'Posisi Wajib Di isi',
             'departement_id.required' => 'Departemen Wajib Di isi',
         ]);
 
         $pegawai = Employee::insertGetId([
-            'user_level_id' => $request->user_level_id,
             'position_id' => $request->position_id,
             'departement_id' => $request->departement_id,
             'phone' => $request->phone,

@@ -8001,7 +8001,7 @@ body.dark-mode-active .cart-item .cart-item-footer {
 }
 
 #user-detail {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
 }
 

@@ -24,6 +24,9 @@ class LeaveController extends Controller
         $getJatahCuti = GetLeave::with('employee.position')
         ->with('employee.departement')->where('employee_id', $employee_id)->first();
 
+        if ($getJatahCuti === null) {
+            return Redirect::back();
+        }
         $posisi = $getJatahCuti->employee->position->name;
         $departement_id = $getJatahCuti->employee->departement_id;
 

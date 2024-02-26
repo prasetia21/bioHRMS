@@ -1,7 +1,7 @@
 <div class="section" id="user-section">
     <div id="user-detail">
         <div class="avatar">
-            <img src="{{ asset('picture/accounts/' . $employee->photo ) }}" alt="avatar" class="imaged w64 rounded">
+            <img src="{{ asset('picture/accounts/' . $employee->photo ) }}" alt="avatar" class="image">
         </div>
     
         <div id="user-info">
@@ -11,3 +11,4 @@
         </div>
     </div>
 </div>
+

@@ -188,7 +188,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="../dashboard/auth/sign-in.html">Logout</a>
+                            <li><a class="dropdown-item" href="/sign-out">Logout</a>
                             </li>
                         </ul>
                     </li>
